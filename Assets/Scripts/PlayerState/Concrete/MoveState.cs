@@ -16,6 +16,7 @@ public class MoveState : State
     {
         if (stateManager.PlayerController.Agent.velocity.magnitude < threshold)
         {
+            Debug.Log("To Idle");
             stateManager.PlayerController.Animator.CrossFade("Idle", 0.1f);
             stateManager.SwitchState(new IdleState(stateManager));
         }
@@ -23,7 +24,8 @@ public class MoveState : State
 
     public override void EnterState()
     {
-        stateManager.PlayerController.Animator.CrossFade("Run", 0.1f);
+        Debug.Log("To Move");
+        stateManager.PlayerController.Animator.CrossFade("Run", 0f);
         MoveAgent();
     }
 
@@ -31,10 +33,6 @@ public class MoveState : State
 
     public override void UpdateState()
     {
-        // if (Input.GetMouseButton(1))
-        // {
-        //     MoveAgent();
-        // }
         return;
     }
 

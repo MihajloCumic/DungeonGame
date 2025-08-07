@@ -53,7 +53,6 @@ public class AttackState : State
         if (IsDead()) yield break;
 
 
-        //stateManager.PlayerController.Animator.CrossFade("Mele", 0.1f); 
         _target.TakeDamage(25);
         _isAttacking = false;
 

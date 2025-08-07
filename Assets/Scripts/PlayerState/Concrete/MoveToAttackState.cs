@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MoveToAttackState : State
 {
-    private const float threshold = 0.01f;
     private IDamagable _target;
+    private const float attackableDistance = 2f;
     public MoveToAttackState(StateManager stateManager) : base(stateManager)
     {
     }
@@ -23,8 +23,6 @@ public class MoveToAttackState : State
 
     public override void EnterState()
     {
-        stateManager.PlayerController.Animator.CrossFade("Run", 0.1f);
-
         var playerController = stateManager.PlayerController;
         Ray ray = playerController.Cemara.ScreenPointToRay(Input.mousePosition);
 
@@ -32,19 +30,16 @@ public class MoveToAttackState : State
         {
             if (hit.transform.TryGetComponent(out DamagableMinion damagable))
             {
+
+                stateManager.PlayerController.Animator.CrossFade("Run", 0.1f);
                 _target = damagable;
                 Rotate(playerController.transform, _target.GetPosition());
 
-                // if (!SwitchToAttack(playerController.transform.position))
-                // {
-                //     playerController.Agent.SetDestination(hit.point);
-                // }
                 playerController.Agent.SetDestination(hit.point);
                 return;
             }
         }
-        stateManager.SwitchState(new IdleState(stateManager));
-        
+        stateManager.SwitchState(new IdleState(stateManager));  
     }
 
     public override void ExitState()
@@ -60,7 +55,7 @@ public class MoveToAttackState : State
     private bool SwitchToAttack(Vector3 playerPosition)
     {
         var distance = Vector3.Distance(playerPosition, _target.GetPosition());
-        if (distance <= 2f)
+        if (distance <= attackableDistance)
         {
             stateManager.SwitchState(new AttackState(stateManager, _target));
             return true;
