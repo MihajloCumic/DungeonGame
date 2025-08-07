@@ -16,17 +16,12 @@ public class PlayerController : MonoBehaviour
 
     private StateManager _stateManager;
 
-
-    [SerializeField] private FireSpell firespellSo;
-    private ICommand _command;
-
     void Awake()
     {
         Animator = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = playerStats.MovementSpeed;
         _stateManager = new(this);
-        _command = new FireSpellCommand(transform, firespellSo);
     }
 
     void Start()
@@ -37,10 +32,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            _command.Execute();
-        }
         _stateManager.Update();
     }
 

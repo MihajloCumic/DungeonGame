@@ -17,3 +17,4 @@ MonoBehaviour:
   _cooldown: 5
   _maxDistance: 5
   _burnRadius: 2
+  _indicator: {fileID: 906279763866590301, guid: 8d212213f0f54fd17be9aa00e5def6c5, type: 3}

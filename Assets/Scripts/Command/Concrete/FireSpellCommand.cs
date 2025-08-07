@@ -3,21 +3,21 @@ using UnityEngine;
 
 public class FireSpellCommand : ICommand
 {
-    private readonly Transform _playerTransform;
+    private readonly Transform _casterTransform;
     private readonly FireSpell _fireSpell;
 
-    public FireSpellCommand(Transform playerTransform, FireSpell fireSpell)
+    public FireSpellCommand(Transform casterTransform, FireSpell fireSpell)
     {
-        _playerTransform = playerTransform;
+        _casterTransform = casterTransform;
         _fireSpell = fireSpell;
     }
 
     public Task Execute()
     {
-        var origin = _playerTransform.position;
-        var direction = _playerTransform.forward;
+        var origin = _casterTransform.position;
+        var direction = _casterTransform.forward;
         var maxDistance = _fireSpell.MaxDistance;
-        Debug.DrawRay(origin + new Vector3(0, 5f, 0), direction * maxDistance, Color.rebeccaPurple);
+
         if (Physics.Raycast(origin, direction, out RaycastHit hit, maxDistance))
         {
             if (hit.transform.TryGetComponent(out IDamagable damagable))
@@ -29,4 +29,13 @@ public class FireSpellCommand : ICommand
 
         return Task.CompletedTask;
     }
+
+    // private void RenderLine(Vector3 origin, Vector3 direction, float distance)
+    // {
+    //     var endPoint = origin + direction * distance;
+    //     _casterLineRenderer.startWidth = 1f;
+    //     _casterLineRenderer.endWidth = 0.1f;
+    //     _casterLineRenderer.SetPosition(0, origin);
+    //     _casterLineRenderer.SetPosition(1, endPoint);
+    // }
 }
