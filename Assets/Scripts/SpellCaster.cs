@@ -5,25 +5,26 @@ public class SpellCaster : MonoBehaviour
 {
 
     private ICommand _command;
-    [SerializeField] private FireSpell firespellSo;
+    [SerializeField] private FireSpell firespell;
     private GameObject _indicator;
     private AnimationManager _animationManager;
+    private float _lastTimeCast = -Mathf.Infinity;
 
     void Awake()
     {
         _animationManager = GetComponent<AnimationManager>();
-        _command = new FireSpellCommand(transform, firespellSo, _animationManager);
+        _command = new FireSpellCommand(transform, firespell, _animationManager);
     }
 
     void Start()
     {
-        _indicator = Instantiate(firespellSo.Indicator);
+        _indicator = Instantiate(firespell.Indicator);
         _indicator.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q) && IsCooldownUp())
         {
             if (Input.GetMouseButton(0))
             {
@@ -37,16 +38,21 @@ public class SpellCaster : MonoBehaviour
                         return;
                     }
                     Rotate(hit.point);
-                    firespellSo.DrawIndicator(transform.position, hit, _indicator);
+                    firespell.DrawIndicator(transform.position, hit, _indicator);
                 }
             }
             if (Input.GetMouseButtonUp(0))
             {
                 _command.Execute();
+                _lastTimeCast = Time.time;
             }
             return;
         }       
         _indicator.SetActive(false);
+    }
+    private bool IsCooldownUp()
+    {
+        return Time.time >= _lastTimeCast + firespell.Cooldown;
     }
 
     private void Rotate(Vector3 mousePosition)

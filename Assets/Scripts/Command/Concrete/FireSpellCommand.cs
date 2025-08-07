@@ -16,6 +16,9 @@ public class FireSpellCommand : ICommand
 
     public async Task Execute()
     {
+        float duration = _animatrionManager.Cast();
+        await Awaitable.WaitForSecondsAsync(duration);
+
         var origin = _casterTransform.position;
         var direction = _casterTransform.forward;
         var maxDistance = _fireSpell.MaxDistance;
@@ -24,12 +27,12 @@ public class FireSpellCommand : ICommand
         {
             if (hit.transform.TryGetComponent(out IDamagable damagable))
             {
-                float duration = _animatrionManager.Cast();
-                await Awaitable.WaitForSecondsAsync(duration);
                 damagable.TakeDamage(_fireSpell.BaseDamage);
                 _animatrionManager.Idle();
             }
 
         }
     }
+
+    
 }
