@@ -29,13 +29,4 @@ public class FireSpellCommand : ICommand
 
         return Task.CompletedTask;
     }
-
-    // private void RenderLine(Vector3 origin, Vector3 direction, float distance)
-    // {
-    //     var endPoint = origin + direction * distance;
-    //     _casterLineRenderer.startWidth = 1f;
-    //     _casterLineRenderer.endWidth = 0.1f;
-    //     _casterLineRenderer.SetPosition(0, origin);
-    //     _casterLineRenderer.SetPosition(1, endPoint);
-    // }
 }
