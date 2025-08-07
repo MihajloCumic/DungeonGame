@@ -709,6 +709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 330585545}
   playerStats: {fileID: 11400000, guid: 5c207f73d66e4cfc2a1e8cdff37bb4b8, type: 2}
+  firespellSo: {fileID: 11400000, guid: a5af3ce64658115fea01799f07fe9b2a, type: 2}
 --- !u!114 &888893112
 MonoBehaviour:
   m_ObjectHideFlags: 0
