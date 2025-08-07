@@ -50,9 +50,11 @@ public class AttackState : State
 
         yield return new WaitForSeconds(1f);
 
-        if (IsDead()) yield break;
-
-
+        if (IsDead())
+        {
+            yield break;
+        }
+    
         _target.TakeDamage(25);
         _isAttacking = false;
 
