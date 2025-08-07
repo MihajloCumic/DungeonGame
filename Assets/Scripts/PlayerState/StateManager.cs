@@ -32,10 +32,10 @@ public class StateManager
             SwitchState(new MoveState(this));
             return;
         }
-        if (Input.GetMouseButtonUp(0))
-        {
-            SwitchState(new MoveToAttackState(this));
-        }
+        // if (Input.GetMouseButtonUp(0))
+        // {
+        //     SwitchState(new MoveToAttackState(this));
+        // }
     }
     
 }

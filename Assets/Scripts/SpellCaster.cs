@@ -1,15 +1,18 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AnimationManager))]
 public class SpellCaster : MonoBehaviour
 {
 
     private ICommand _command;
     [SerializeField] private FireSpell firespellSo;
     private GameObject _indicator;
+    private AnimationManager _animationManager;
 
     void Awake()
     {
-        _command = new FireSpellCommand(transform, firespellSo);
+        _animationManager = GetComponent<AnimationManager>();
+        _command = new FireSpellCommand(transform, firespellSo, _animationManager);
     }
 
     void Start()
@@ -26,7 +29,16 @@ public class SpellCaster : MonoBehaviour
             {
                 _indicator.SetActive(true);
                 var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                firespellSo.DrawIndicator(transform.position, mouseRay, _indicator);
+                if (Physics.Raycast(mouseRay, out RaycastHit hit))
+                {
+                    if (hit.transform.TryGetComponent(out PlayerController playerController))
+                    {
+                        _indicator.SetActive(false);
+                        return;
+                    }
+                    Rotate(hit.point);
+                    firespellSo.DrawIndicator(transform.position, hit, _indicator);
+                }
             }
             if (Input.GetMouseButtonUp(0))
             {
@@ -35,5 +47,12 @@ public class SpellCaster : MonoBehaviour
             return;
         }       
         _indicator.SetActive(false);
+    }
+
+    private void Rotate(Vector3 mousePosition)
+    {
+        var direction = mousePosition - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = rotation;
     }
 }

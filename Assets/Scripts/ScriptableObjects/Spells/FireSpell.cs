@@ -12,20 +12,18 @@ public class FireSpell : Spell
     public GameObject Indicator => _indicator;
 
 
-    public void DrawIndicator(Vector3 playerPosition, Ray mouseRay, GameObject indicator)
+    public void DrawIndicator(Vector3 playerPosition, RaycastHit hit, GameObject indicator)
     {
-        if (Physics.Raycast(mouseRay, out RaycastHit hit))
-        {
-            var distance = Vector3.Distance(playerPosition, hit.point);
-            var oldScale = indicator.transform.localScale;
-            indicator.transform.localScale = new Vector3(oldScale.x, distance, oldScale.z);
-            indicator.transform.position = (playerPosition + hit.point) / 2f;
-
-            Vector3 direction = hit.point - playerPosition;
-            indicator.transform.rotation = Quaternion.LookRotation(direction);
-            indicator.transform.Rotate(90, 0, 0);
-        }
-        Debug.Log(indicator.activeInHierarchy);
+        var distance = _maxDistance;
+        var contrainedYHit = new Vector3(hit.point.x, 0.1f, hit.point.z);
+        var direction = (contrainedYHit - playerPosition).normalized;
+        var hitPoint = playerPosition + (direction * distance);
+        
+        var oldScale = indicator.transform.localScale;
+        indicator.transform.localScale = new Vector3(oldScale.x, distance, oldScale.z);
+        
+        indicator.transform.SetPositionAndRotation((playerPosition + hitPoint) / 2f, Quaternion.LookRotation(direction));
+        indicator.transform.Rotate(90, 0, 0);
     }
     
 }

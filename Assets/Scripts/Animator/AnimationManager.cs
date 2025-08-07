@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class AnimationManager : MonoBehaviour
 {
     private Animator _animator;
@@ -21,7 +20,7 @@ public class AnimationManager : MonoBehaviour
 
     void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     public float Idle() => PlayAnimation(idleHash);
