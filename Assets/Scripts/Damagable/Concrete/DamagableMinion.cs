@@ -13,11 +13,14 @@ public class DamagableMinion : BaseDamagable
 
     public override void TakeDamage(uint damage)
     {
+        bool isDead = false;
         currHealth -= damage;
 
         if (currHealth <= 0)
         {
             _minionController.ReleaseMe();
+            isDead = true;
         }
+        damageEvent.Trigger(this, damage, isDead);
     }
 }

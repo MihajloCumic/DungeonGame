@@ -6,7 +6,6 @@ public class FollowAndAttackPlayer : MonoBehaviour
 {
     public Transform PlayerTransform { private get; set; }
     private NavMeshAgent _agent;
-
     private Animator _animator;
 
     void Awake()

@@ -5,13 +5,18 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
     [SerializeField] protected BaseStats baseStats;
     protected uint currHealth;
 
+    protected DamageEvent damageEvent = new();
+
     void Awake()
     {
         currHealth = baseStats.MaxHealth;
         SubclassAwake();
     }
 
-    protected virtual void SubclassAwake(){}
+    protected virtual void SubclassAwake() { }
+
+
+    public abstract void TakeDamage(uint damage);
 
     public Vector3 GetPosition()
     {
@@ -23,6 +28,15 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
         return currHealth <= 0 || !gameObject.activeInHierarchy;
     }
 
-    public abstract void TakeDamage(uint damage);
+    public uint GetCurrHealth()
+    {
+        return currHealth;
+    }
+
+    public void Subscribe(DamageEvent.DamageDelegate handler)
+    {
+        damageEvent.DamageHandler += handler;
+    }
+
     
 }

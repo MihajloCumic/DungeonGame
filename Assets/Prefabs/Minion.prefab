@@ -1036,6 +1036,7 @@ GameObject:
   - component: {fileID: 8722039387212430483}
   - component: {fileID: 1340571655850767091}
   - component: {fileID: -3009802201720050841}
+  - component: {fileID: 3779909538142863804}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -1158,6 +1159,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats: {fileID: 11400000, guid: 8bf1990d49298659e86d66da10827acc, type: 2}
+--- !u!114 &3779909538142863804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4890602429933161066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e7d8577eff71a11a657b2997b34a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4900155812069195116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,7 +1280,7 @@ GameObject:
   - component: {fileID: 3636894936615515908}
   - component: {fileID: 6790150725979918584}
   m_Layer: 0
-  m_Name: Healthbar
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2049,7 +2062,7 @@ GameObject:
   - component: {fileID: 1518937654339090677}
   - component: {fileID: 3008528499203451074}
   m_Layer: 0
-  m_Name: Elements
+  m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
