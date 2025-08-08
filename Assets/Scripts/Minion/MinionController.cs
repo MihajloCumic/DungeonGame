@@ -14,6 +14,7 @@ public class MinionController : MonoBehaviour
     void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = minionStats.MovementSpeed;
         _animator = GetComponentInChildren<Animator>();
     }
 

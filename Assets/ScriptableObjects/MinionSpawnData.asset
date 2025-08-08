@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603c301c6d81ee2deb5db1494c601c71, type: 3}
   m_Name: MinionSpawnData
   m_EditorClassIdentifier: 
+  initialWait: 3
   poolCapacity: 20
-  maxConcurrent: 1
-  rate: 0.2
+  maxConcurrent: 2
+  rate: 2
+  spawnCycleIntervalLower: 5
+  spawnCycleIntervalUpper: 10

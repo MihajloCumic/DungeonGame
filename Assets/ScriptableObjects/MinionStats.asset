@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MinionStats
   m_EditorClassIdentifier: 
   maxHealth: 100
-  movementSpeed: 0
+  movementSpeed: 2

@@ -15,7 +15,7 @@ public class AnimationManager : MonoBehaviour
         {idleHash, 1.733f},
         {runHash, 0.667f},
         {meleHash, 0.867f},
-        {castHash, 0.73f}
+        {castHash, 0.5f}//0.73
     };
 
     void Awake()

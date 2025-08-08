@@ -11,7 +11,6 @@ public class FollowAndAttackPlayer : MonoBehaviour
     void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _agent.speed = 0f;
         _animator = GetComponentInChildren<Animator>();
     }
 

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Healthbar : MonoBehaviour
 {
     private uint _currHealth;
+    private uint _maxHealth;
     private Slider _slider;
 
     void Awake()
@@ -17,10 +18,14 @@ public class Healthbar : MonoBehaviour
             return;
         }
     }
+
+    void Onable()
+    {
+
+    }
     void Start()
     {
         var damagable = GetComponent<IDamagable>();
-
         damagable.Subscribe(RegisterDamageTaken);
 
         int currHealth = damagable.GetCurrHealth();
@@ -29,6 +34,7 @@ public class Healthbar : MonoBehaviour
         _slider.maxValue = _currHealth;
         _slider.value = _currHealth;
     }
+
     public void RegisterDamageTaken(IDamagable sender, DamageArgs damageArgs)
     {
         uint damageTaken = damageArgs.DamageTaken;

@@ -13,6 +13,11 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
         SubclassAwake();
     }
 
+    void OnEnable()
+    {
+        currHealth = (int)baseStats.MaxHealth;
+    }
+
     protected virtual void SubclassAwake() { }
 
 
@@ -36,5 +41,10 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
     public void Subscribe(DamageEvent.DamageDelegate handler)
     {
         damageEvent.DamageHandler += handler;
+    }
+
+    public uint GetMaxHealth()
+    {
+        return baseStats.MaxHealth;
     }
 }

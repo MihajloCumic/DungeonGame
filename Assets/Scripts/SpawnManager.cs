@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviour
 
     private ObjectPool<MinionController> _objectPool;
 
+
     void Awake()
     {
         _objectPool = new ObjectPool<MinionController>(
@@ -30,13 +31,30 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnMinions());
     }
 
+    
+
+    private IEnumerator InitialWait()
+    {
+        yield return new WaitForSeconds(spawnData.InitialWait);
+    }
+
+    private IEnumerator CycleWait()
+    {
+        var cycleWait = Random.Range(spawnData.SpawnCycleIntervalLower, spawnData.SpawnCycleIntervalUpper + 1);
+        yield return new WaitForSeconds(cycleWait);
+    }
+
     private IEnumerator SpawnMinions()
     {
-        yield return new WaitForSeconds(3);
-        for (int i = 0; i < spawnData.MaxConcurrent; i++)
+        yield return InitialWait();
+        while (true)
         {
-            SpawnMinion();
-            yield return new WaitForSeconds(spawnData.Rate);
+            for (int i = 0; i < spawnData.MaxConcurrent; i++)
+            {
+                SpawnMinion();
+                yield return new WaitForSeconds(spawnData.Rate);
+            }   
+            yield return CycleWait();
         }
     }
 
