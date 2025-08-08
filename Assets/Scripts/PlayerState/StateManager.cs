@@ -26,6 +26,7 @@ public class StateManager
 
     public void Update()
     {
+        if (_stateManagerLock) return;
         currState.UpdateState();
         currState.CheckForChange();
         CheckForInputChanges();
@@ -42,21 +43,20 @@ public class StateManager
 
     private void CheckForInputChanges()
     {
-        if (_stateManagerLock) return;
         if (Input.GetMouseButton(1))
         {
             SwitchState(new MoveState(this));
             return;
         }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             SwitchState(_spellCastingState);
             return;
         }
-        // if (Input.GetMouseButtonUp(0))
-        // {
-        //     SwitchState(new MoveToAttackState(this));
-        // }
+        if (Input.GetMouseButtonUp(0))
+        {
+            SwitchState(new MoveToAttackState(this));
+        }
     }
 
     

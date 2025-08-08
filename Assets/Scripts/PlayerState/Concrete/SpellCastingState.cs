@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class SpellCastingState : State
@@ -35,22 +34,18 @@ public class SpellCastingState : State
     public override void ExitState()
     {
         _indicator.SetActive(false);
-        _animationManager.Idle();
     }
 
     public override async void UpdateState()
     {
-        if (Input.GetMouseButton(0))
-        {
-            DrawIndicator();
-            return;
-        }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0))
         {
             stateManager.Lock();
             await _command.Execute();
             stateManager.Unlock();
+            stateManager.SwitchState(new IdleState(stateManager));
         }
+        DrawIndicator();
     }
 
     private void DrawIndicator()

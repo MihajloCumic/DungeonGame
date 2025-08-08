@@ -14,6 +14,7 @@ public class MoveState : State
 
     public override void CheckForChange()
     {
+        //Ovde je problem sa animacijom trcanja kada se krene iz mesta
         if (stateManager.PlayerController.Agent.velocity.magnitude < threshold)
         {
             stateManager.SwitchState(new IdleState(stateManager));
@@ -41,7 +42,7 @@ public class MoveState : State
         Ray ray = playerController.Cemara.ScreenPointToRay(mousePosition);
 
         bool didHit = RaycastHitUtil.ExludePlayerLayer(ray, out RaycastHit hit);
-        Debug.Log(didHit);
+
         if (!didHit) return;
 
         Rotate(playerController.transform, hit.point);

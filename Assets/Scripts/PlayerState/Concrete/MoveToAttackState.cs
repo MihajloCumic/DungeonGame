@@ -36,7 +36,6 @@ public class MoveToAttackState : State
 
         if (hit.transform.TryGetComponent(out DamagableMinion damagable))
         {
-
             stateManager.PlayerController.AnimationManager.Run();
             _target = damagable;
             Rotate(playerController.transform, _target.GetPosition());

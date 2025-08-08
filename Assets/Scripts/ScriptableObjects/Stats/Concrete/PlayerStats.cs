@@ -4,9 +4,9 @@ using UnityEngine;
 public class PlayerStats : BaseStats
 {
     [SerializeField] private uint maxMana;
-    public uint MaxMana
-    {
-        get { return maxMana; }
-    }
+    [SerializeField] private Attack meleAttack;
+
+    public uint MaxMana => maxMana;
+    public Attack MeleAttack => meleAttack;
 
 }
