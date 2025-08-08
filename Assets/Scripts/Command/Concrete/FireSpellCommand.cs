@@ -28,7 +28,6 @@ public class FireSpellCommand : ICommand
             if (hit.transform.TryGetComponent(out IDamagable damagable))
             {
                 damagable.TakeDamage(_fireSpell.BaseDamage);
-                _animatrionManager.Idle();
             }
 
         }

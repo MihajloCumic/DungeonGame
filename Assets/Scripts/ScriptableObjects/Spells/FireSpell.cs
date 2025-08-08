@@ -5,14 +5,10 @@ public class FireSpell : Spell
 {
     [SerializeField] private float _maxDistance;
     [SerializeField] private float _burnRadius;
-    [SerializeField] private GameObject _indicator;
-
     public float MaxDistance => _maxDistance;
     public float BurnRadius => _burnRadius;
-    public GameObject Indicator => _indicator;
 
-
-    public void DrawIndicator(Vector3 playerPosition, RaycastHit hit, GameObject indicator)
+    public override void DrawIndicator(Vector3 playerPosition, RaycastHit hit, GameObject indicator)
     {
         var distance = _maxDistance;
         var contrainedYHit = new Vector3(hit.point.x, 0.1f, hit.point.z);
@@ -25,5 +21,4 @@ public class FireSpell : Spell
         indicator.transform.SetPositionAndRotation((playerPosition + hitPoint) / 2f, Quaternion.LookRotation(direction));
         indicator.transform.Rotate(90, 0, 0);
     }
-    
 }

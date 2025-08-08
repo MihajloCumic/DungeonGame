@@ -26,18 +26,23 @@ public class MoveToAttackState : State
         var playerController = stateManager.PlayerController;
         Ray ray = playerController.Cemara.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        bool didHit = RaycastHitUtil.ExludePlayerLayer(ray, out RaycastHit hit);
+
+        if (!didHit)
         {
-            if (hit.transform.TryGetComponent(out DamagableMinion damagable))
-            {
+            stateManager.SwitchState(new IdleState(stateManager));
+            return;
+        }
 
-                stateManager.PlayerController.Animator.CrossFade("Run", 0.1f);
-                _target = damagable;
-                Rotate(playerController.transform, _target.GetPosition());
+        if (hit.transform.TryGetComponent(out DamagableMinion damagable))
+        {
 
-                playerController.Agent.SetDestination(hit.point);
-                return;
-            }
+            stateManager.PlayerController.AnimationManager.Run();
+            _target = damagable;
+            Rotate(playerController.transform, _target.GetPosition());
+
+            playerController.Agent.SetDestination(hit.point);
+            return;
         }
         stateManager.SwitchState(new IdleState(stateManager));  
     }

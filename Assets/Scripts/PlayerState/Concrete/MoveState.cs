@@ -16,14 +16,13 @@ public class MoveState : State
     {
         if (stateManager.PlayerController.Agent.velocity.magnitude < threshold)
         {
-            stateManager.PlayerController.Animator.CrossFade("Idle", 0.1f);
             stateManager.SwitchState(new IdleState(stateManager));
         }
     }
 
     public override void EnterState()
     {
-        stateManager.PlayerController.Animator.CrossFade("Run", 0f);
+        stateManager.PlayerController.AnimationManager.Run();
         MoveAgent();
     }
 
@@ -41,12 +40,12 @@ public class MoveState : State
 
         Ray ray = playerController.Cemara.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            if (hit.transform.TryGetComponent(out PlayerController controller)) return;
-            Rotate(playerController.transform, hit.point);
-            playerController.Agent.SetDestination(hit.point);
-        }
+        bool didHit = RaycastHitUtil.ExludePlayerLayer(ray, out RaycastHit hit);
+        Debug.Log(didHit);
+        if (!didHit) return;
+
+        Rotate(playerController.transform, hit.point);
+        playerController.Agent.SetDestination(hit.point);
     }
 
     private void Rotate(Transform playerTransform, Vector3 mousePosition)

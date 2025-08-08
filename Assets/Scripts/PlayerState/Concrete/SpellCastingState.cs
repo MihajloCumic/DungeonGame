@@ -1,0 +1,78 @@
+using System.Threading.Tasks;
+using UnityEngine;
+
+public class SpellCastingState : State
+{
+    private readonly Spell _spell;
+    private readonly ICommand _command;
+    private readonly Transform _casterTransform;
+    private readonly AnimationManager _animationManager;
+    private readonly GameObject _indicator;
+    public SpellCastingState(StateManager stateManager, Spell spell) : base(stateManager)
+    {
+        _spell = spell;
+        _animationManager = stateManager.PlayerController.AnimationManager;
+        _casterTransform = stateManager.PlayerController.transform;
+        _command = CommandFactory.Create(
+            _casterTransform,
+            _spell,
+            _animationManager
+        );
+        _indicator = Object.Instantiate(_spell.Indicator);
+        _indicator.SetActive(false);
+    }
+
+    public override void CheckForChange()
+    {
+        return;
+    }
+
+    public override void EnterState()
+    {
+        return;
+    }
+
+    public override void ExitState()
+    {
+        _indicator.SetActive(false);
+        _animationManager.Idle();
+    }
+
+    public override async void UpdateState()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            DrawIndicator();
+            return;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            stateManager.Lock();
+            await _command.Execute();
+            stateManager.Unlock();
+        }
+    }
+
+    private void DrawIndicator()
+    {
+        _indicator.SetActive(true);
+
+        var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool didHit = RaycastHitUtil.ExludePlayerLayer(mouseRay, out RaycastHit hit);
+        if (!didHit)
+        {
+            _indicator.SetActive(false);
+            return;
+        }
+
+        Rotate(hit.point);
+        _spell.DrawIndicator(_casterTransform.position, hit, _indicator);
+    }
+
+    private void Rotate(Vector3 mousePosition)
+    {
+        var direction = mousePosition - _casterTransform.position;
+        Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+        _casterTransform.rotation = rotation;
+    }
+}

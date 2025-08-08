@@ -19,7 +19,7 @@ public class IdleState : State
 
     public override void EnterState()
     {
-        stateManager.PlayerController.Animator.CrossFade("Idle", 0.1f);
+        stateManager.PlayerController.AnimationManager.Idle();
     }
     
 
