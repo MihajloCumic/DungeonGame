@@ -6,6 +6,6 @@ public interface IDamagable
     bool IsDead();
     Vector3 GetPosition();
 
-    uint GetCurrHealth();
+    int GetCurrHealth();
     void Subscribe(DamageEvent.DamageDelegate handler);
 }

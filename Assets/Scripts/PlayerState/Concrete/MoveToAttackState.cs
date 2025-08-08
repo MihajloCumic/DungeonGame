@@ -3,21 +3,22 @@ using UnityEngine;
 public class MoveToAttackState : State
 {
     private IDamagable _target;
-    private const float attackableDistance = 2f;
-    public MoveToAttackState(StateManager stateManager) : base(stateManager)
+    private readonly Attack _attack;
+    public MoveToAttackState(StateManager stateManager, Attack attack) : base(stateManager)
     {
+        _attack = attack;
     }
 
     public override void CheckForChange()
     {
         if (_target == null || _target.IsDead())
         {
-            stateManager.SwitchState(new IdleState(stateManager));
+            stateManager.SwitchState(stateManager.IdleState);
             return;
         }
-        if (SwitchToAttack(stateManager.PlayerController.transform.position))
+        if (IsInRange())
         {
-            return;
+            stateManager.SwitchState(CreateAttackState());
         }
     }
 
@@ -34,37 +35,24 @@ public class MoveToAttackState : State
             return;
         }
 
-        if (hit.transform.TryGetComponent(out DamagableMinion damagable))
+        if (hit.transform.TryGetComponent(out IDamagable damagable))
         {
             stateManager.PlayerController.AnimationManager.Run();
             _target = damagable;
-            Rotate(playerController.transform, _target.GetPosition());
-
-            playerController.Agent.SetDestination(hit.point);
             return;
         }
-        stateManager.SwitchState(new IdleState(stateManager));  
+        stateManager.SwitchState(new IdleState(stateManager));
     }
 
     public override void ExitState()
     {
-        return;
+        _target = null;
     }
-
     public override void UpdateState()
     {
-        return;
-    }
-
-    private bool SwitchToAttack(Vector3 playerPosition)
-    {
-        var distance = Vector3.Distance(playerPosition, _target.GetPosition());
-        if (distance <= attackableDistance)
-        {
-            stateManager.SwitchState(new AttackState(stateManager, _target));
-            return true;
-        }
-        return false;
+        var playerController = stateManager.PlayerController;
+        Rotate(playerController.transform, _target.GetPosition());
+        playerController.Agent.SetDestination(_target.GetPosition());
     }
 
     private void Rotate(Transform playerTransform, Vector3 targetPosition)
@@ -72,5 +60,26 @@ public class MoveToAttackState : State
         var direction = targetPosition - playerTransform.position;
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
         playerTransform.rotation = rotation;
+    }
+
+    private bool IsInRange()
+    {
+        var origin = stateManager.PlayerController.transform.position;
+        var distance = Vector3.Distance(origin, _target.GetPosition());
+        return distance <= _attack.MaxDistance;
+    }
+
+    private AttackState CreateAttackState()
+    {
+        var attackCommand = CommandFactory.CreateAttackCommand(
+            _attack,
+            stateManager.PlayerController.transform,
+            stateManager.PlayerController.AnimationManager,
+            _target
+        );
+        return new AttackState(
+            stateManager,
+            attackCommand
+        );
     }
 }

@@ -1,67 +1,38 @@
-using System.Collections;
 using UnityEngine;
 
 public class AttackState : State
 {
-    private readonly IDamagable _target;
-    private bool _isAttacking = false;
-    public AttackState(StateManager stateManager, IDamagable target) : base(stateManager)
+    private readonly ICommand _command;
+    public AttackState(StateManager stateManager, ICommand command) : base(stateManager)
     {
-        _target = target;
+        _command = command;
     }
 
     public override void CheckForChange()
     {
-        if (_target == null || _target.IsDead())
-        {
-            stateManager.SwitchState(new IdleState(stateManager));
-        }
+        return;
     }
 
-    public override void EnterState()
+    public override async void EnterState()
     {
         stateManager.PlayerController.AnimationManager.Idle();
         stateManager.PlayerController.Agent.isStopped = true;
+
+        stateManager.Lock();
+        await _command.Execute();
+        stateManager.Unlock();
+        stateManager.SwitchState(stateManager.IdleState);
     }
 
     public override void ExitState()
     {
         stateManager.PlayerController.Agent.isStopped = false;
+        stateManager.PlayerController.Agent.ResetPath();
     }
 
 
     public override void UpdateState()
     {
-        if (!_isAttacking)
-        {
-            Attack();
-        }
-    }
-
-    private void Attack()
-    {
-        var playerController = stateManager.PlayerController;
-        playerController.StartCoroutine(AttackCoroutine());
-    }
-
-    private IEnumerator AttackCoroutine()
-    {
-        _isAttacking = true;
-
-        yield return new WaitForSeconds(1f);
-
-        if (IsDead())
-        {
-            yield break;
-        }
-    
-        _target.TakeDamage(25);
-        _isAttacking = false;
-
-    }
-
-    private bool IsDead()
-    {
-        return _target == null || _target.IsDead();
+        return;
     }
 }

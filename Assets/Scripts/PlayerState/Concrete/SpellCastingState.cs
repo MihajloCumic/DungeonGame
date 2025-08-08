@@ -3,7 +3,6 @@ using UnityEngine;
 public class SpellCastingState : State
 {
     private readonly Spell _spell;
-    private readonly ICommand _command;
     private readonly Transform _casterTransform;
     private readonly AnimationManager _animationManager;
     private readonly GameObject _indicator;
@@ -12,11 +11,6 @@ public class SpellCastingState : State
         _spell = spell;
         _animationManager = stateManager.PlayerController.AnimationManager;
         _casterTransform = stateManager.PlayerController.transform;
-        _command = CommandFactory.Create(
-            _casterTransform,
-            _spell,
-            _animationManager
-        );
         _indicator = Object.Instantiate(_spell.Indicator);
         _indicator.SetActive(false);
     }
@@ -41,22 +35,31 @@ public class SpellCastingState : State
         if (Input.GetMouseButtonDown(0))
         {
             stateManager.Lock();
-            await _command.Execute();
+
+            var command = CreateCommand();
+            await command.Execute();
+
             stateManager.Unlock();
-            stateManager.SwitchState(new IdleState(stateManager));
+            stateManager.SwitchState(stateManager.IdleState);
+            return;
         }
         DrawIndicator();
+    }
+    private ICommand CreateCommand()
+    {
+        return CommandFactory.CreateSpellCommand(
+            _spell,
+            _casterTransform,
+            _animationManager
+        );
     }
 
     private void DrawIndicator()
     {
-        _indicator.SetActive(true);
-
         var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool didHit = RaycastHitUtil.ExludePlayerLayer(mouseRay, out RaycastHit hit);
         if (!didHit)
         {
-            _indicator.SetActive(false);
             return;
         }
 

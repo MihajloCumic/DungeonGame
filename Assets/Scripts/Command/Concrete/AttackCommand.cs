@@ -22,11 +22,7 @@ public class AttackCommand : ICommand
 
     public async Task Execute()
     {
-        float duration = _animationManager.Mele();
-        await Awaitable.WaitForSecondsAsync(duration);
-
         var origin = _casterTransform.position;
-        var direction = _casterTransform.forward;
         var maxDistance = _attack.MaxDistance;
 
         var distance = Vector3.Distance(origin, _target.GetPosition());
@@ -34,6 +30,9 @@ public class AttackCommand : ICommand
         {
             return;
         }
+
+        float duration = _animationManager.Mele();
+        await Awaitable.WaitForSecondsAsync(duration);
 
         _target.TakeDamage(_attack.BaseDamage);
     }

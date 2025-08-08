@@ -5,18 +5,18 @@ public class FireSpellCommand : ICommand
 {
     private readonly Transform _casterTransform;
     private readonly FireSpell _fireSpell;
-    private readonly AnimationManager _animatrionManager;
+    private readonly AnimationManager _animationManager;
 
     public FireSpellCommand(Transform casterTransform, FireSpell fireSpell, AnimationManager animationManager)
     {
         _casterTransform = casterTransform;
         _fireSpell = fireSpell;
-        _animatrionManager = animationManager;
+        _animationManager = animationManager;
     }
 
     public async Task Execute()
     {
-        float duration = _animatrionManager.Cast();
+        float duration = _animationManager.Cast();
         await Awaitable.WaitForSecondsAsync(duration);
 
         var origin = _casterTransform.position;

@@ -4,8 +4,8 @@ public class DamagablePlayer: BaseDamagable
 {
     public override void TakeDamage(uint damage)
     {
-        currHealth -= damage;
-        if (currHealth <= 0)
+        currHealth -= (int)damage;
+        if (IsDead())
         {
             gameObject.SetActive(false);
         }

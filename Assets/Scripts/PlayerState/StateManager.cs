@@ -5,16 +5,27 @@ public class StateManager
     private State currState;
     public PlayerController PlayerController { get; private set; }
     private bool _stateManagerLock = false;
-    private readonly Spell _firstSpell;
+    private readonly IdleState _idleState;
     private readonly SpellCastingState _spellCastingState;
+    private readonly MoveToAttackState _moveToAttackState;
+    private readonly MoveState _moveState;
+
+    public IdleState IdleState => _idleState;
+    public SpellCastingState SpellCastingState => _spellCastingState;
+    public MoveToAttackState MoveToAttackState => _moveToAttackState;
+    public MoveState MoveState => _moveState;
+
 
     public StateManager(PlayerController playerController)
     {
         PlayerController = playerController;
-        currState = new IdleState(this);
-        _firstSpell = playerController.SpellSet.FirstSpell;
-        _spellCastingState = new SpellCastingState(this, _firstSpell);
-        
+        _idleState = new IdleState(this);
+        currState = _idleState;
+        var firstSpell = playerController.SpellSet.FirstSpell;
+        _spellCastingState = new SpellCastingState(this, firstSpell);
+        var attack = playerController.PlayerStats.MeleAttack;
+        _moveToAttackState = new MoveToAttackState(this, attack);
+        _moveState = new MoveState(this);
     }
 
     public void SwitchState(State nextState)
@@ -43,19 +54,15 @@ public class StateManager
 
     private void CheckForInputChanges()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButtonDown(1))
         {
-            SwitchState(new MoveState(this));
+            SwitchState(_moveState);
             return;
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SwitchState(_spellCastingState);
             return;
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            SwitchState(new MoveToAttackState(this));
         }
     }
 

@@ -23,7 +23,8 @@ public class Healthbar : MonoBehaviour
 
         damagable.Subscribe(RegisterDamageTaken);
 
-        _currHealth = damagable.GetCurrHealth();
+        int currHealth = damagable.GetCurrHealth();
+        _currHealth = currHealth < 0 ? 0 : (uint)currHealth;
         _slider.minValue = 0;
         _slider.maxValue = _currHealth;
         _slider.value = _currHealth;
@@ -41,6 +42,6 @@ public class Healthbar : MonoBehaviour
         }
 
         _currHealth -= damageTaken;
-        _slider.value -= _currHealth;
+        _slider.value -= damageTaken;
     }
 }

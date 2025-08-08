@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MoveState : State
 {
-    private const float threshold = 0.01f;
     public MoveState(StateManager stateManager) : base(stateManager)
     {
     }
@@ -14,10 +13,16 @@ public class MoveState : State
 
     public override void CheckForChange()
     {
-        //Ovde je problem sa animacijom trcanja kada se krene iz mesta
-        if (stateManager.PlayerController.Agent.velocity.magnitude < threshold)
+        var agent = stateManager.PlayerController.Agent;
+        if (!agent.pathPending)
         {
-            stateManager.SwitchState(new IdleState(stateManager));
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    stateManager.SwitchState(stateManager.IdleState);
+                }
+            }
         }
     }
 
@@ -46,7 +51,23 @@ public class MoveState : State
         if (!didHit) return;
 
         Rotate(playerController.transform, hit.point);
+
+        if (SwitchToMoveToAttackState(hit))
+        {
+            return;
+        }
+
         playerController.Agent.SetDestination(hit.point);
+    }
+
+    private bool SwitchToMoveToAttackState(RaycastHit hit)
+    {
+        if (hit.transform.TryGetComponent(out IDamagable damagable))
+        {
+            stateManager.SwitchState(stateManager.MoveToAttackState);
+            return true;
+        }
+        return false;
     }
 
     private void Rotate(Transform playerTransform, Vector3 mousePosition)

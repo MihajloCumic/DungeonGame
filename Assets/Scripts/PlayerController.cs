@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera _camera;
     public Camera Cemara => _camera;
     [SerializeField] private PlayerStats playerStats;
+    public PlayerStats PlayerStats => playerStats; 
     private NavMeshAgent _agent;
     public NavMeshAgent Agent => _agent;
     private AnimationManager _animationManager;

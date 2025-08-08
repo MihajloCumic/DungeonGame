@@ -3,13 +3,13 @@ using UnityEngine;
 public abstract class BaseDamagable : MonoBehaviour, IDamagable
 {
     [SerializeField] protected BaseStats baseStats;
-    protected uint currHealth;
+    protected int currHealth;
 
     protected DamageEvent damageEvent = new();
 
     void Awake()
     {
-        currHealth = baseStats.MaxHealth;
+        currHealth = (int)baseStats.MaxHealth;
         SubclassAwake();
     }
 
@@ -28,7 +28,7 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
         return currHealth <= 0 || !gameObject.activeInHierarchy;
     }
 
-    public uint GetCurrHealth()
+    public int GetCurrHealth()
     {
         return currHealth;
     }
@@ -37,6 +37,4 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
     {
         damageEvent.DamageHandler += handler;
     }
-
-    
 }

@@ -10,6 +10,7 @@ public class FireSpell : Spell
 
     public override void DrawIndicator(Vector3 playerPosition, RaycastHit hit, GameObject indicator)
     {
+        indicator.SetActive(true);
         var distance = _maxDistance;
         var contrainedYHit = new Vector3(hit.point.x, 0.1f, hit.point.z);
         var direction = (contrainedYHit - playerPosition).normalized;
