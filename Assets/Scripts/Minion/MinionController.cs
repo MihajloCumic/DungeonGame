@@ -18,17 +18,26 @@ public class MinionController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = minionStats.MovementSpeed;
         _animationManager = GetComponent<AnimationManager>();
-        _followAndAttackState = new(
-            minionAttack,
-            transform,
-            Player,
-            _agent,
-            _animationManager
-        );
+        
     }
 
     void Start()
     {
+        if (Player == null)
+        {
+            Debug.Log("Player is not set to MinionController");
+            return;
+        }
+        if (_followAndAttackState == null)
+        {
+            _followAndAttackState = new(
+                minionAttack,
+                transform,
+                Player,
+                _agent,
+                _animationManager
+            );   
+        }
         _followAndAttackState.EnterState();
     }
 

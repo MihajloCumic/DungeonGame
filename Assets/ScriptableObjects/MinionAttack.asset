@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ee86e498fee9b44befee707cf068ae, type: 3}
   m_Name: MinionAttack
   m_EditorClassIdentifier: 
-  _baseDamage: 0
-  _cooldown: 0
-  _maxDistance: 0
+  _baseDamage: 20
+  _cooldown: 2
+  _maxDistance: 2

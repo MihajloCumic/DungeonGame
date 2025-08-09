@@ -8,6 +8,7 @@ public class FollowAndAttackState
     private readonly IDamagable _player;
     private readonly NavMeshAgent _agent;
     private readonly AnimationManager _animationManager;
+    private bool _lockState = false;
     private float _lastAttackTime = -Mathf.Infinity;
 
     public FollowAndAttackState(
@@ -29,14 +30,23 @@ public class FollowAndAttackState
     {
         _animationManager.Run();
     }
-    public async void UpdateState()
+
+    public void UpdateState()
+    {
+        if (_lockState) return;
+        TryToAttack();
+    }
+
+    public async void TryToAttack()
     {
         Rotate();
         if (IsInRange() && IsCoolDownUp())
         {
+            _lockState = true;
             var command = CreateAttackCommand();
             await command.Execute();
             _lastAttackTime = Time.time;
+            _lockState = false;
         }
         _agent.SetDestination(_player.GetPosition());
     }
@@ -73,6 +83,4 @@ public class FollowAndAttackState
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
         _transform.rotation = rotation;
     }
-
-
 }
