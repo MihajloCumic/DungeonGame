@@ -9,4 +9,5 @@ public interface IDamagable
     int GetCurrHealth();
     void Subscribe(DamageEvent.DamageDelegate handler);
     uint GetMaxHealth();
+    void SetVisualMarker();
 }

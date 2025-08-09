@@ -50,7 +50,7 @@ public class SpellCastingState : State
         return CommandFactory.CreateSpellCommand(
             _spell,
             _casterTransform,
-            _animationManager
+            _animationManager.Cast
         );
     }
 

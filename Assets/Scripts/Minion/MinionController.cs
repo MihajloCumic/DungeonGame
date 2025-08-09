@@ -2,25 +2,39 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(NavMeshAgent), typeof(AnimationManager))]
 public class MinionController : MonoBehaviour
 {
     [SerializeField] private MinionStats minionStats;
+    [SerializeField] private MinionAttack minionAttack;
     public IDamagable Player { private get; set; }
     private NavMeshAgent _agent;
-    private Animator _animator;
+    private AnimationManager _animationManager;
+    private FollowAndAttackState _followAndAttackState;
 
     public ObjectPool<MinionController> ObjectPool { get; set; }
     void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = minionStats.MovementSpeed;
-        _animator = GetComponentInChildren<Animator>();
+        _animationManager = GetComponent<AnimationManager>();
+        _followAndAttackState = new(
+            minionAttack,
+            transform,
+            Player,
+            _agent,
+            _animationManager
+        );
     }
 
     void Start()
     {
-        _animator.CrossFade("Idle", 0.1f);
+        _followAndAttackState.EnterState();
+    }
+
+    void Update()
+    {
+        _followAndAttackState.UpdateState();
     }
 
     public void ReleaseMe()

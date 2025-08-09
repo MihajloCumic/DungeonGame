@@ -47,4 +47,9 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
     {
         return baseStats.MaxHealth;
     }
+
+    public virtual void SetVisualMarker()
+    {
+        
+    }
 }

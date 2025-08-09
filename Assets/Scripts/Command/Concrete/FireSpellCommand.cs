@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -5,18 +6,18 @@ public class FireSpellCommand : ICommand
 {
     private readonly Transform _casterTransform;
     private readonly FireSpell _fireSpell;
-    private readonly AnimationManager _animationManager;
+    private readonly Func<float> _animationFunc;
 
-    public FireSpellCommand(Transform casterTransform, FireSpell fireSpell, AnimationManager animationManager)
+    public FireSpellCommand(Transform casterTransform, FireSpell fireSpell, Func<float> animationFunc)
     {
         _casterTransform = casterTransform;
         _fireSpell = fireSpell;
-        _animationManager = animationManager;
+        _animationFunc = animationFunc;
     }
 
     public async Task Execute()
     {
-        float duration = _animationManager.Cast();
+        float duration = _animationFunc();
         await Awaitable.WaitForSecondsAsync(duration);
 
         var origin = _casterTransform.position;

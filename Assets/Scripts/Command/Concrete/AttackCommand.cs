@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -5,18 +6,18 @@ public class AttackCommand : ICommand
 {
     private readonly Transform _casterTransform;
     private readonly Attack _attack;
-    private readonly AnimationManager _animationManager;
+    private readonly Func<float> _animationFunc;
     private readonly IDamagable _target;
 
     public AttackCommand(
         Transform casterTransform,
         Attack attack,
-        AnimationManager animationManager,
+        Func<float> animationFunc,
         IDamagable target)
     {
         _casterTransform = casterTransform;
         _attack = attack;
-        _animationManager = animationManager;
+        _animationFunc = animationFunc;
         _target = target;
     }
 
@@ -31,7 +32,7 @@ public class AttackCommand : ICommand
             return;
         }
 
-        float duration = _animationManager.Mele();
+        float duration = _animationFunc();
         await Awaitable.WaitForSecondsAsync(duration);
 
         _target.TakeDamage(_attack.BaseDamage);

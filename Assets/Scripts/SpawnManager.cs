@@ -7,7 +7,6 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private MinionController minionPrefab;
     [SerializeField] private SpawnData spawnData;
-
     [SerializeField] private Transform playerTransfrom;
 
     private ObjectPool<MinionController> _objectPool;
@@ -68,8 +67,6 @@ public class SpawnManager : MonoBehaviour
     {
         MinionController minionInstance = Instantiate(minionPrefab);
         minionInstance.ObjectPool = _objectPool;
-        var followAndAttack = minionInstance.GetOrAddComponent<FollowAndAttackPlayer>();
-        followAndAttack.PlayerTransform = playerTransfrom;
         return minionInstance;
     }
 

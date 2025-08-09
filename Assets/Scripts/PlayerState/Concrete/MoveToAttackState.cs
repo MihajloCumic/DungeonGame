@@ -74,7 +74,7 @@ public class MoveToAttackState : State
         var attackCommand = CommandFactory.CreateAttackCommand(
             _attack,
             stateManager.PlayerController.transform,
-            stateManager.PlayerController.AnimationManager,
+            stateManager.PlayerController.AnimationManager.Mele,
             _target
         );
         return new AttackState(
