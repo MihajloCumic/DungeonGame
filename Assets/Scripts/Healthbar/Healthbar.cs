@@ -4,6 +4,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(IDamagable))]
 public class Healthbar : MonoBehaviour
 {
+    [SerializeField] private Transform healthbarTransform;
+    private Camera _camera;
     private uint _currHealth;
     private Slider _slider;
     private IDamagable _damagable;
@@ -13,6 +15,7 @@ public class Healthbar : MonoBehaviour
         _slider = GetComponentInChildren<Slider>();
         _damagable = GetComponent<IDamagable>();
         _damagable.Subscribe(RegisterDamageTaken);
+        _camera = Camera.main;
     }
     
     void OnEnable()
@@ -24,7 +27,11 @@ public class Healthbar : MonoBehaviour
         _slider.maxValue = _currHealth;
         _slider.value = _currHealth;
     }
-    
+
+    void LateUpdate()
+    {
+        healthbarTransform.rotation = _camera.transform.rotation;
+    }
 
     public void RegisterDamageTaken(IDamagable sender, DamageArgs damageArgs)
     {

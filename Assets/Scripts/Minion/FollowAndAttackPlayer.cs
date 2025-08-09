@@ -14,18 +14,23 @@ public class FollowAndAttackPlayer : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
     }
 
-    void Start()
+    void OnEnable()
     {
         _animator.CrossFade("Run", 0.1f);
     }
     void Update()
     {
-        if (PlayerTransform != null)
+        Rotate(transform.position, PlayerTransform);
+        if (IsInRange())
         {
-            Rotate(transform.position, PlayerTransform);
-            _agent.SetDestination(PlayerTransform.position);
+            
         }
-        
+        _agent.SetDestination(PlayerTransform.position);
+    }
+    private bool IsInRange()
+    {
+        var distance = Vector3.Distance(transform.position, PlayerTransform.position);
+        return distance <= 2f;
     }
     private void Rotate(Vector3 minionPosition, Transform playerTransform)
     {
