@@ -21,7 +21,7 @@ public class MinionController : MonoBehaviour
         
     }
 
-    void Start()
+    void OnEnable()
     {
         if (Player == null)
         {

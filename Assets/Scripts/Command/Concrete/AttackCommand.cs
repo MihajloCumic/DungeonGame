@@ -23,6 +23,10 @@ public class AttackCommand : ICommand
 
     public async Task Execute()
     {
+        if (!_casterTransform.gameObject.activeInHierarchy) return;
+        float duration = _animationFunc();
+        await Awaitable.WaitForSecondsAsync(duration);
+
         var origin = _casterTransform.position;
         var maxDistance = _attack.MaxDistance;
 
@@ -31,9 +35,6 @@ public class AttackCommand : ICommand
         {
             return;
         }
-
-        float duration = _animationFunc();
-        await Awaitable.WaitForSecondsAsync(duration);
 
         _target.TakeDamage(_attack.BaseDamage);
     }

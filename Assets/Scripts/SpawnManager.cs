@@ -6,7 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private MinionController minionPrefab;
     [SerializeField] private SpawnData spawnData;
-    [SerializeField] private Transform player;
+    [SerializeField] private BaseDamagable player;
 
     private ObjectPool<MinionController> _objectPool;
 
@@ -66,8 +66,7 @@ public class SpawnManager : MonoBehaviour
     {
         MinionController minionInstance = Instantiate(minionPrefab);
         minionInstance.ObjectPool = _objectPool;
-        var damagable = player.GetComponent<IDamagable>();
-        minionInstance.Player = player.GetComponent<IDamagable>();
+        minionInstance.Player = player;
         return minionInstance;
     }
 

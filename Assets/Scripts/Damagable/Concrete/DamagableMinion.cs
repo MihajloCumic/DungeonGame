@@ -6,14 +6,14 @@ public class DamagableMinion : BaseDamagable
 {
     private MinionController _minionController;
 
-    private Renderer _renderer;
+    private Renderer[] _renderers;
     private Color _originalColor;
 
     protected override void SubclassAwake()
     {
         _minionController = GetComponent<MinionController>();
-        _renderer = GetComponentInChildren<Renderer>();
-        _originalColor = _renderer.material.color;
+        _renderers= GetComponentsInChildren<Renderer>(true);
+        _originalColor = _renderers[0].material.color;
     }
 
     public override void TakeDamage(uint damage)
@@ -25,11 +25,13 @@ public class DamagableMinion : BaseDamagable
         if (IsDead())
         {
             _minionController.ReleaseMe();
-            _renderer.material.color = _originalColor;
+            SetColor(_originalColor);
             isDead = true;
         }
         damageEvent.Trigger(this, damage, isDead);
     }
+
+    
 
     public override void SetVisualMarker()
     {
@@ -38,8 +40,16 @@ public class DamagableMinion : BaseDamagable
 
     private IEnumerator ChangeColor()
     {
-        _renderer.material.color = Color.red;
+        SetColor(Color.red);
         yield return new WaitForSeconds(0.2f);
-        _renderer.material.color = _originalColor;
+        SetColor(_originalColor);
+    }
+
+    private void SetColor(Color color)
+    {
+        foreach(Renderer r in _renderers)
+        {
+            r.material.color = color;
+        }
     }
 }

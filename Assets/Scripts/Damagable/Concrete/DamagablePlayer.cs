@@ -5,10 +5,12 @@ public class DamagablePlayer: BaseDamagable
     public override void TakeDamage(uint damage)
     {
         currHealth -= (int)damage;
-        if (IsDead())
+        bool isDead = IsDead();
+        if (isDead)
         {
-            gameObject.SetActive(false);
+            Time.timeScale = 0f;
         }
+        damageEvent.Trigger(this, damage, isDead);
     }
     
 }

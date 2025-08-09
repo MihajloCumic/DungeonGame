@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,8 +32,10 @@ public class FollowAndAttackState
         _animationManager.Run();
     }
 
+
     public void UpdateState()
     {
+        if (!_transform.gameObject.activeInHierarchy) return;
         if (_lockState) return;
         TryToAttack();
     }
@@ -42,13 +45,21 @@ public class FollowAndAttackState
         Rotate();
         if (IsInRange() && IsCoolDownUp())
         {
-            _lockState = true;
-            var command = CreateAttackCommand();
-            await command.Execute();
-            _lastAttackTime = Time.time;
-            _lockState = false;
+            _agent.ResetPath();
+            await Attack();
+            return;
         }
         _agent.SetDestination(_player.GetPosition());
+    }
+
+    private async Task Attack()
+    {
+        _lockState = true;
+        var command = CreateAttackCommand();
+        await command.Execute();
+        _lastAttackTime = Time.time;
+        _lockState = false;
+        _animationManager.Run();
     }
 
     private ICommand CreateAttackCommand()
