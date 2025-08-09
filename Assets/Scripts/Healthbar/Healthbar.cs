@@ -5,35 +5,26 @@ using UnityEngine.UI;
 public class Healthbar : MonoBehaviour
 {
     private uint _currHealth;
-    private uint _maxHealth;
     private Slider _slider;
+    private IDamagable _damagable;
 
     void Awake()
     {
         _slider = GetComponentInChildren<Slider>();
-        if (_slider == null)
-        {
-            Debug.Log("No Slider attached to child.");
-            Destroy(this.gameObject);
-            return;
-        }
+        _damagable = GetComponent<IDamagable>();
+        _damagable.Subscribe(RegisterDamageTaken);
     }
-
-    void Onable()
+    
+    void OnEnable()
     {
-
-    }
-    void Start()
-    {
-        var damagable = GetComponent<IDamagable>();
-        damagable.Subscribe(RegisterDamageTaken);
-
-        int currHealth = damagable.GetCurrHealth();
-        _currHealth = currHealth < 0 ? 0 : (uint)currHealth;
+        var maxHealth = _damagable.GetMaxHealth();
+        var currHealth = maxHealth < 0 ? 0 : maxHealth;
+        _currHealth = currHealth;
         _slider.minValue = 0;
         _slider.maxValue = _currHealth;
         _slider.value = _currHealth;
     }
+    
 
     public void RegisterDamageTaken(IDamagable sender, DamageArgs damageArgs)
     {
