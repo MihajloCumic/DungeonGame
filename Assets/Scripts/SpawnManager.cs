@@ -66,7 +66,7 @@ public class SpawnManager : MonoBehaviour
     {
         MinionController minionInstance = Instantiate(minionPrefab);
         minionInstance.ObjectPool = _objectPool;
-        minionInstance.Player = player;
+        minionInstance.SetPlayerAndState(player);
         return minionInstance;
     }
 

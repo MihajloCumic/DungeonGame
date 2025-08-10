@@ -7,7 +7,7 @@ public class MinionController : MonoBehaviour
 {
     [SerializeField] private MinionStats minionStats;
     [SerializeField] private MinionAttack minionAttack;
-    public IDamagable Player { private get; set; }
+    public IDamagable Player { get; private set; }
     private NavMeshAgent _agent;
     private AnimationManager _animationManager;
     private FollowAndAttackState _followAndAttackState;
@@ -21,24 +21,16 @@ public class MinionController : MonoBehaviour
         
     }
 
-    void OnEnable()
+    public void SetPlayerAndState(IDamagable player)
     {
-        if (Player == null)
-        {
-            Debug.Log("Player is not set to MinionController");
-            return;
-        }
-        if (_followAndAttackState == null)
-        {
-            _followAndAttackState = new(
-                minionAttack,
-                transform,
-                Player,
-                _agent,
-                _animationManager
-            );   
-        }
-        _followAndAttackState.EnterState();
+        Player = player;
+        _followAndAttackState = new(
+            minionAttack,
+            transform,
+            Player,
+            _agent,
+            _animationManager
+        );   
     }
 
     void Update()

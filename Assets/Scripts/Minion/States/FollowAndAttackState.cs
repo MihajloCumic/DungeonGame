@@ -27,6 +27,11 @@ public class FollowAndAttackState
         _animationManager = animationManager;
     }
 
+    void OnEnable()
+    {
+        EnterState();
+    }
+
     public void EnterState()
     {
         _animationManager.Run();

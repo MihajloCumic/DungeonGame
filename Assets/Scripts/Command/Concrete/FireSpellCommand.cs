@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class FireSpellCommand : ICommand
 
     public async Task Execute()
     {
+        PathEffect();
         float duration = _animationFunc();
         await Awaitable.WaitForSecondsAsync(duration);
 
@@ -28,10 +30,27 @@ public class FireSpellCommand : ICommand
         {
             if (hit.transform.TryGetComponent(out IDamagable damagable))
             {
+                HitEffect(damagable);
                 damagable.TakeDamage(_fireSpell.BaseDamage);
             }
 
         }
+    }
+    private void PathEffect()
+    {
+        var position = _casterTransform.position + _casterTransform.forward * 0.5f + new Vector3(0, 1f, 0);
+        CastEffect(_fireSpell.PathEffect, 1.7f, position, _casterTransform.rotation);
+    }
+
+    private void HitEffect(IDamagable damagable)
+    {
+        CastEffect(_fireSpell.HitEffect, 1f, damagable.GetPosition(), Quaternion.identity);
+    }
+
+    private void CastEffect(GameObject effect, float duration, Vector3 position, Quaternion rotation)
+    {
+        var pathEffect = UnityEngine.Object.Instantiate(effect, position, rotation);
+        UnityEngine.Object.Destroy(pathEffect, duration);
     }
 
     

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb65cf8d448994d418fc49e0355c83c6, type: 3}
   m_Name: FireSpell
   m_EditorClassIdentifier: 
-  _spellType: 0
   _baseDamage: 50
   _cooldown: 5
-  _maxDistance: 5
-  _burnRadius: 2
   _indicator: {fileID: 2916111109895999450, guid: 41a1f446cb543a945bc86052edb5ea77, type: 3}
+  maxDistance: 5
+  hitEffect: {fileID: 358637981425055526, guid: 8eb503696b886e04faff8fc0f480d473, type: 3}
+  pathEffect: {fileID: 8145502431507700120, guid: 000832214335ffd4782827d2a4510f4a, type: 3}

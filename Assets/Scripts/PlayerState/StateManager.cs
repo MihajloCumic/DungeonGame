@@ -61,10 +61,15 @@ public class StateManager
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SwitchState(_spellCastingState);
+            var qSpell = PlayerController.SpellSet.FirstSpell;
+            SwitchState(SpellCastingState.Create(this, qSpell));
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            var wSpell = PlayerController.SpellSet.SecondSpell;
+            SwitchState(SpellCastingState.Create(this, wSpell));
             return;
         }
     }
-
-    
 }

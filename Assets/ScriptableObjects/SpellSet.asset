@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SpellSet
   m_EditorClassIdentifier: 
   firstSpell: {fileID: 11400000, guid: a5af3ce64658115fea01799f07fe9b2a, type: 2}
+  secondSpell: {fileID: 11400000, guid: 8bd9f200054bcadceb317960b803128a, type: 2}

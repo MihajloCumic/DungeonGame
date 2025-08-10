@@ -7,7 +7,9 @@ public class CommandFactory
     public static ICommand CreateSpellCommand(
         Spell spell,
         Transform casterTransform,
-        Func<float> animationFunc)
+        Func<float> animationFunc,
+        Vector3 mouseHitPosition
+        )
     {
         return spell switch
         {
@@ -15,7 +17,12 @@ public class CommandFactory
                 casterTransform,
                 fireSpell,
                 animationFunc),
-
+            IceSpell iceSpell => new IceShardsCommand(
+                casterTransform,
+                iceSpell,
+                animationFunc,
+                mouseHitPosition
+            ),
             _ => null
         };
     }

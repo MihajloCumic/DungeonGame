@@ -3,15 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FireSpell", menuName = "Spells/FireSpell")]
 public class FireSpell : Spell
 {
-    [SerializeField] private float _maxDistance;
-    [SerializeField] private float _burnRadius;
-    public float MaxDistance => _maxDistance;
-    public float BurnRadius => _burnRadius;
+    [SerializeField] private float maxDistance;
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private GameObject pathEffect;
+    public float MaxDistance => maxDistance;
+    public GameObject HitEffect => hitEffect;
+    public GameObject PathEffect => pathEffect;
 
     public override void DrawIndicator(Vector3 playerPosition, RaycastHit hit, GameObject indicator)
     {
         indicator.SetActive(true);
-        var distance = _maxDistance;
+        var distance = maxDistance;
         var contrainedYHit = new Vector3(hit.point.x, 0.1f, hit.point.z);
         var direction = (contrainedYHit - playerPosition).normalized;
         var hitPoint = playerPosition + (direction * distance);
