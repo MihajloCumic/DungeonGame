@@ -9,6 +9,7 @@ public class AnimationManager : MonoBehaviour
     private static readonly int meleHash = Animator.StringToHash("Mele");
     private static readonly int castHash = Animator.StringToHash("Cast");
     private static readonly int minionAttackHash = Animator.StringToHash("MinionAttack");
+    private static readonly int bossCastHash = Animator.StringToHash("BossCast");
     private const float _crossFade = 0.1f;
 
     private readonly Dictionary<int, float> _animationDuration = new()
@@ -17,7 +18,8 @@ public class AnimationManager : MonoBehaviour
         {runHash, 0.667f},
         {meleHash, 0.6f},//0.867
         {castHash, 0.5f},//0.73
-        {minionAttackHash, 1.5f}
+        {minionAttackHash, 1.5f},
+        {bossCastHash, 1.2f}
     };
 
     void Awake()
@@ -30,6 +32,7 @@ public class AnimationManager : MonoBehaviour
     public float Mele() => PlayAnimation(meleHash);
     public float Cast() => PlayAnimation(castHash);
     public float MinionAttack() => PlayAnimation(minionAttackHash);
+    public float BossCast() => PlayAnimation(bossCastHash);
 
 
     private float PlayAnimation(int animationHash)

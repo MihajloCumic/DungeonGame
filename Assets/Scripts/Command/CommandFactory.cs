@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CommandFactory
 {
-    public static ICommand CreateSpellCommand(
+    public static ICommand CreateCommand(
         Spell spell,
         Transform casterTransform,
         Func<float> animationFunc,
@@ -22,6 +22,30 @@ public class CommandFactory
                 iceSpell,
                 animationFunc,
                 mouseHitPosition
+            ),
+            BurnAroundSpell burnSpell => new BurnAroundCommand(
+                casterTransform,
+                burnSpell,
+                animationFunc
+            ),
+            _ => null
+        };
+    }
+
+    public static ICommand CreateCommand(
+        Spell spell,
+        Transform transform,
+        Func<float> animationFunc,
+        IDamagable player
+    )
+    {
+        return spell switch
+        {
+            ExplodePlayerSpell explodeSpell => new ExplodePlayerCommand(
+                transform,
+                player,
+                explodeSpell,
+                animationFunc
             ),
             _ => null
         };

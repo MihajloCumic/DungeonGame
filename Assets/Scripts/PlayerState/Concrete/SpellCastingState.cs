@@ -54,7 +54,7 @@ public class SpellCastingState : State
     }
     private ICommand CreateCommand(Vector3 mouseHitPosition)
     {
-        return CommandFactory.CreateSpellCommand(
+        return CommandFactory.CreateCommand(
             _spell,
             _casterTransform,
             _animationManager.Cast,

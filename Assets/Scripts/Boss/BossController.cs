@@ -8,6 +8,7 @@ public class BossController : MonoBehaviour, IDamagable
 {
     [SerializeField] private BossStats bossStats;
     [SerializeField] private List<Spell> spells;
+    [SerializeField] private BaseDamagable player;
     private AnimationManager _animationManager;
     private int _currHealth;
 
@@ -20,8 +21,22 @@ public class BossController : MonoBehaviour, IDamagable
     void Start()
     {
         _animationManager.Idle();
-        StartCoroutine(BossLogic());
+        Spell spell = spells[1];
+        ICommand spellCommand = CommandFactory.CreateCommand(
+            spell,
+            transform,
+            _animationManager.BossCast,
+            player
+        );
+        Execute(spellCommand);
+        // StartCoroutine(BossLogic());
 
+    }
+
+    private async void Execute(ICommand command)
+    {
+        await command.Execute();
+        _animationManager.Idle();
     }
 
     private IEnumerator InitialWait()
@@ -41,19 +56,19 @@ public class BossController : MonoBehaviour, IDamagable
 
             int listCnt = spells.Count;
             int spellNum = Random.Range(0, listCnt);
-            Spell spell = spells[spellNum];
-            ICommand spellCommand = CommandFactory.CreateSpellCommand(
+            Spell spell = spells[0];
+            ICommand spellCommand = CommandFactory.CreateCommand(
                 spell,
                 transform,
-                _animationManager.Cast,
+                _animationManager.BossCast,
                 Vector3.zero
             );
-            Debug.Log("Execute");
             // Task task = spellCommand.Execute();
             // while (!task.IsCompleted)
             // {
             //     yield return null;
             // }
+            spellCommand.Execute();
             
         }
     }

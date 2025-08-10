@@ -16,4 +16,7 @@ MonoBehaviour:
   _cooldown: 0
   _indicator: {fileID: 6526302276393259002, guid: f9d9793366789ae48a7e1b0692763acc, type: 3}
   effect: {fileID: 4596544553357837919, guid: 8eb503696b886e04faff8fc0f480d473, type: 3}
-  delay: 2
+  indicatorEffect: {fileID: 0}
+  delay: 1
+  numOfCycles: 5
+  radius: 2
