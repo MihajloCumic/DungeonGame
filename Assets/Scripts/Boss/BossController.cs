@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(AnimationManager))]
@@ -18,7 +20,45 @@ public class BossController : MonoBehaviour, IDamagable
     void Start()
     {
         _animationManager.Idle();
+        StartCoroutine(BossLogic());
+
     }
+
+    private IEnumerator InitialWait()
+    {
+        yield return new WaitForSeconds(bossStats.StartDelay);
+    }
+
+    private IEnumerator BossLogic()
+    {
+        yield return InitialWait();
+        while (!IsDead())
+        {
+            float lower = bossStats.LowerAttackInterval;
+            float upper = bossStats.UpperAttackInterval;
+            float attackWait = Random.Range(lower, upper);
+            yield return new WaitForSeconds(attackWait);
+
+            int listCnt = spells.Count;
+            int spellNum = Random.Range(0, listCnt);
+            Spell spell = spells[spellNum];
+            ICommand spellCommand = CommandFactory.CreateSpellCommand(
+                spell,
+                transform,
+                _animationManager.Cast,
+                Vector3.zero
+            );
+            Debug.Log("Execute");
+            // Task task = spellCommand.Execute();
+            // while (!task.IsCompleted)
+            // {
+            //     yield return null;
+            // }
+            
+        }
+    }
+
+
     public int GetCurrHealth()
     {
         return _currHealth;
