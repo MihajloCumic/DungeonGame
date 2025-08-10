@@ -16,9 +16,9 @@ public class AnimationManager : MonoBehaviour
     {
         {idleHash, 1.733f},
         {runHash, 0.667f},
-        {meleHash, 0.6f},//0.867
+        {meleHash, 0.4f},//0.867
         {castHash, 0.5f},//0.73
-        {minionAttackHash, 1.5f},
+        {minionAttackHash, 0.9f},
         {bossCastHash, 1.2f}
     };
 

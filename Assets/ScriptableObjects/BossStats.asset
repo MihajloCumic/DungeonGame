@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9baef37b5a0458394031c6c760e08d, type: 3}
   m_Name: BossStats
   m_EditorClassIdentifier: 
-  maxHealth: 300
+  maxHealth: 10
   movementSpeed: 0
   startDelay: 3
   lowerAttackInterval: 2
   upperAttackInterval: 7
-  lowerWaitBetween: 0
-  upperWaitBetween: 0

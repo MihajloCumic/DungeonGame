@@ -27,6 +27,8 @@ public class AttackCommand : ICommand
         float duration = _animationFunc();
         await Awaitable.WaitForSecondsAsync(duration);
 
+        if ((bool)(_casterTransform.GetComponent<IDamagable>()?.IsDead())) return;
+
         var origin = _casterTransform.position;
         var maxDistance = _attack.MaxDistance;
 
@@ -37,5 +39,6 @@ public class AttackCommand : ICommand
         }
 
         _target.TakeDamage(_attack.BaseDamage);
+        SceneRules.Instance.CheckRules(_casterTransform.GetComponent<IDamagable>(), _target, null,_attack);
     }
 }

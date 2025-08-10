@@ -28,7 +28,7 @@ public class BossController : MonoBehaviour, IDamagable
             _animationManager.BossCast,
             player
         );
-        Execute(spellCommand);
+        //Execute(spellCommand);
         // StartCoroutine(BossLogic());
 
     }

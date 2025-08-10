@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MinionAttack
   m_EditorClassIdentifier: 
   _baseDamage: 20
-  _cooldown: 2
+  _cooldown: 3
   _maxDistance: 2

@@ -32,6 +32,7 @@ public class FireSpellCommand : ICommand
             {
                 HitEffect(damagable);
                 damagable.TakeDamage(_fireSpell.BaseDamage);
+                SceneRules.Instance.CheckRules(_casterTransform.GetComponent<IDamagable>(), damagable, _fireSpell, null);
             }
 
         }
