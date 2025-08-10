@@ -29,7 +29,7 @@ public class SpellCastingState : State
 
     public override void ExitState()
     {
-        _indicator.SetActive(false);
+        Object.Destroy(_indicator);
     }
 
     public override async void UpdateState()
@@ -75,7 +75,8 @@ public class SpellCastingState : State
 
     private void Rotate(Vector3 mousePosition)
     {
-        var direction = mousePosition - _casterTransform.position;
+        var direction = (mousePosition - _casterTransform.position).normalized;
+        direction.y = 0.1f;
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
         _casterTransform.rotation = rotation;
     }

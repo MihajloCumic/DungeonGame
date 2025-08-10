@@ -18,6 +18,11 @@ public class IceShardsCommand : ICommand
     }
     public async Task Execute()
     {
+        var casterPosition = _casterTransform.position;
+        if (Vector3.Distance(casterPosition, _center) > _iceSpell.MaxDistance)
+        {
+            return;
+        }
         float duration = _animationFunc();
         await Awaitable.WaitForSecondsAsync(duration);
         FallingEffect();
@@ -28,11 +33,9 @@ public class IceShardsCommand : ICommand
     private void FallingEffect()
     {
         var duration = _iceSpell.NumOfCycles * _iceSpell.WaitBetweenCycles;
-        var center = _center - new Vector3(0, _center.y, 0);
+        var center = new Vector3(_center.x, 0f, _center.z);
         var effect = UnityEngine.Object.Instantiate(_iceSpell.FallingEffect, center, Quaternion.identity);
-        effect.transform.localScale = Vector3.one * (_iceSpell.SpellRadius * 2f);
-        UnityEngine.Object.Destroy(effect, duration);
-
+        UnityEngine.Object.Destroy(effect.gameObject, 2f);
     }
     private void HitEffect(IDamagable damagable)
     {
