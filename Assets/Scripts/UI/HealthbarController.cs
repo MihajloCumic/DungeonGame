@@ -16,6 +16,7 @@ public class PlaterHealthbar : MonoBehaviour
         _slider.maxValue = _currHealth;
         _slider.value = _currHealth;
         damagable.Subscribe(RegisterDamageTaken);
+        damagable.Subscribe(Heal);
     }
 
     public void RegisterDamageTaken(IDamagable sender, DamageArgs damageArgs)
@@ -32,6 +33,14 @@ public class PlaterHealthbar : MonoBehaviour
 
         _currHealth -= damageTaken;
         _slider.value -= damageTaken;
+    }
+
+    public void Heal(IDamagable damagable, uint healAmount)
+    {
+        _currHealth += healAmount;
+        uint maxHealth = damagable.GetMaxHealth();
+        if (_currHealth > maxHealth) _currHealth = maxHealth;
+        _slider.value = _currHealth; 
     }
 
 

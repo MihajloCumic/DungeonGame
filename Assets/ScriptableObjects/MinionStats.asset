@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4467e15f85abb32e4b8b9fc5a14e24e3, type: 3}
   m_Name: MinionStats
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 10
   movementSpeed: 2

@@ -23,9 +23,9 @@ public class CommandFactory
                 animationFunc,
                 mouseHitPosition
             ),
-            BlinkSpell blinkSpell => new BlinkCommand(
-                casterTransform,
-                blinkSpell
+            HealSpell healSpell => new HealCommand(
+                casterTransform.GetComponent<BaseDamagable>(),
+                healSpell
             ),
             _ => null
         };

@@ -41,6 +41,14 @@ public class SpellCastingState : State
 
     public override void UpdateState()
     {
+        if (_spell is HealSpell)
+        {
+            NonBlockingExecute(Vector3.zero);
+            cooldowns[_spell] = Time.time;
+            stateManager.PlayerController.CooldownEvent.Trigger(_spell);
+            stateManager.SwitchState(stateManager.IdleState);
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             if (!DidHit(out RaycastHit hit))
@@ -123,6 +131,7 @@ public class SpellCastingState : State
 
     public static void SetUpCooldowns(Spell[] spells)
     {
+        cooldowns.Clear();
         foreach (Spell spell in spells)
         {
             cooldowns.Add(spell, -Mathf.Infinity);

@@ -22,6 +22,11 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
 
 
     public abstract void TakeDamage(uint damage);
+    public virtual void Heal(uint healAmount)
+    {
+        currHealth += (int)healAmount;
+        damageEvent.Trigger(this, healAmount);
+    }
 
     public Vector3 GetPosition()
     {
@@ -43,6 +48,11 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
         damageEvent.DamageHandler += handler;
     }
 
+    public void Subscribe(DamageEvent.HealDelegate handler)
+    {
+        damageEvent.HealHandler += handler;
+    }
+
     public uint GetMaxHealth()
     {
         return baseStats.MaxHealth;
@@ -50,6 +60,6 @@ public abstract class BaseDamagable : MonoBehaviour, IDamagable
 
     public virtual void SetVisualMarker()
     {
-        
+
     }
 }

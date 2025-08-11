@@ -8,7 +8,7 @@ public class DamagablePlayer: BaseDamagable
         bool isDead = IsDead();
         if (isDead)
         {
-            Time.timeScale = 0f;
+            GameOver.Instance.Lost();
         }
         damageEvent.Trigger(this, damage, isDead);
     }

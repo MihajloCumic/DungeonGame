@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialWait: 3
   poolCapacity: 20
-  maxConcurrent: 10
+  maxConcurrent: 1
   rate: 4
   spawnCycleIntervalLower: 100
   spawnCycleIntervalUpper: 100

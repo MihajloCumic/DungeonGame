@@ -22,7 +22,7 @@ public class BossController : MonoBehaviour
     void Start()
     {
         _animationManager.Idle();
-        // StartCoroutine(BossLogic());
+        StartCoroutine(BossLogic());
 
     }
 

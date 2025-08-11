@@ -31,8 +31,7 @@ public class SceneRules : MonoBehaviour
 
         if (isPlayer && isMinion && isFireSpell)
         {
-            Debug.Log("Attacked minion with firespell.");
-            Time.timeScale = 0f;
+            GameOver.Instance.Lost();
         }
     }
 
@@ -42,37 +41,27 @@ public class SceneRules : MonoBehaviour
         bool isPlayer = caster is DamagablePlayer;
         if (isPlayer && target is DamagableBoss boss)
         {
-            Debug.Log("It is a boss");
-            if (boss.IsDead() && attack == null)
+            if (boss.IsDead())
             {
-                Debug.Log("Did not kill boss with mele");
-                Time.timeScale = 0f;
+                if (attack == null)
+                {
+                    GameOver.Instance.Lost();
+                    return;
+                }
+                GameOver.Instance.Won();
             }
         }
     }
 
-    private static readonly Func<bool> counter = MinionHitCounter();
-    //cant get hit more than 5 times bu minions
+    private int counter = 0;
     public void ThirdRule(IDamagable caster, IDamagable target, Attack attack)
     {
         bool isMinion = caster is DamagableMinion;
         bool isPlayer = target is DamagablePlayer;
         bool attacked = attack != null;
-        if (isMinion && isPlayer && attacked && counter())
+        if (isMinion && isPlayer && attacked && ++counter >= 5)
         {
-            Debug.Log("Got hit by a minion more than 5 times");
-            Time.timeScale = 0f;
+            GameOver.Instance.Lost();
         }
     }
-    public static Func<bool> MinionHitCounter()
-    {
-        int cnt = 0;
-        return () =>
-        {
-            return ++cnt > 5;
-        };
-    }
-
-    
-
 }
