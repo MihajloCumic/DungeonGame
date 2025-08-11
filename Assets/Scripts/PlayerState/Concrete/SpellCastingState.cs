@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellCastingState : State
 {
+    private readonly static Dictionary<Spell, float> cooldowns = new();
     private readonly Spell _spell;
     private readonly Transform _casterTransform;
     private readonly AnimationManager _animationManager;
@@ -24,7 +26,12 @@ public class SpellCastingState : State
 
     public override void EnterState()
     {
-        return;
+        var lastCastTime = cooldowns[_spell];
+        if (Time.time - lastCastTime < _spell.Cooldown)
+        {
+            stateManager.SwitchState(stateManager.IdleState);
+        }
+        
     }
 
     public override void ExitState()
@@ -50,7 +57,7 @@ public class SpellCastingState : State
             {
                 NonBlockingExecute(hit.point);
             }
-
+            cooldowns[_spell] = Time.time;
             stateManager.SwitchState(stateManager.IdleState);
             return;
         }
@@ -67,7 +74,7 @@ public class SpellCastingState : State
         stateManager.Lock();
         var command = CreateCommand(point);
         await command.Execute();
-        stateManager.Unlock();       
+        stateManager.Unlock();
     }
     private ICommand CreateCommand(Vector3 mouseHitPosition)
     {
@@ -110,6 +117,14 @@ public class SpellCastingState : State
     {
         var mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
         return RaycastHitUtil.ExludePlayerLayer(mouseRay, out hit);
-        
+
+    }
+
+    public static void SetUpCooldowns(Spell[] spells)
+    {
+        foreach (Spell spell in spells)
+        {
+            cooldowns.Add(spell, -Mathf.Infinity);
+        }
     }
 }

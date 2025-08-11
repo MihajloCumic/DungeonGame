@@ -6,12 +6,10 @@ public class StateManager
     public PlayerController PlayerController { get; private set; }
     private bool _stateManagerLock = false;
     private readonly IdleState _idleState;
-    private readonly SpellCastingState _spellCastingState;
     private readonly MoveToAttackState _moveToAttackState;
     private readonly MoveState _moveState;
 
     public IdleState IdleState => _idleState;
-    public SpellCastingState SpellCastingState => _spellCastingState;
     public MoveToAttackState MoveToAttackState => _moveToAttackState;
     public MoveState MoveState => _moveState;
 
@@ -21,11 +19,10 @@ public class StateManager
         PlayerController = playerController;
         _idleState = new IdleState(this);
         currState = _idleState;
-        var firstSpell = playerController.SpellSet.FirstSpell;
-        _spellCastingState = new SpellCastingState(this, firstSpell);
         var attack = playerController.PlayerStats.MeleAttack;
         _moveToAttackState = new MoveToAttackState(this, attack);
         _moveState = new MoveState(this);
+        SetUpCooldowns(playerController.SpellSet);
     }
 
     public void SwitchState(State nextState)
@@ -76,5 +73,15 @@ public class StateManager
             var eSpell = PlayerController.SpellSet.ThirdSpell;
             SwitchState(SpellCastingState.Create(this, eSpell));
         }
+    }
+
+
+    private void SetUpCooldowns(SpellSet spellSet)
+    {
+        SpellCastingState.SetUpCooldowns(new Spell[]{
+            spellSet.FirstSpell,
+            spellSet.SecondSpell,
+            spellSet.ThirdSpell
+        });
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb65cf8d448994d418fc49e0355c83c6, type: 3}
   m_Name: FireSpell
   m_EditorClassIdentifier: 
-  _baseDamage: 50
+  _baseDamage: 30
   _cooldown: 5
   _indicator: {fileID: 2916111109895999450, guid: 41a1f446cb543a945bc86052edb5ea77, type: 3}
   isBlocking: 1

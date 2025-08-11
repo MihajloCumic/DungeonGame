@@ -75,7 +75,7 @@ public class FollowAndAttackState
     private bool IsCoolDownUp()
     {
         var attackCooldown = _minionAttack.Cooldown;
-        return Time.time >= _lastAttackTime - attackCooldown;
+        return Time.time - _lastAttackTime >= attackCooldown;
     }
 
     private bool IsInRange()
