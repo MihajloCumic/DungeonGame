@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class BlinkCommand : ICommand
 {
@@ -16,22 +15,34 @@ public class BlinkCommand : ICommand
     public async Task Execute()
     {
         var delay = _blinkSpell.Delay;
-        RenderEffect(5f);
         await Awaitable.WaitForSecondsAsync(delay);
-        var blinkPoint = _casterTransform.position + _casterTransform.forward * _blinkSpell.Distance;
-        if (NavMesh.SamplePosition(blinkPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        var origin = _casterTransform.position;
+        var direction = _casterTransform.forward;
+        var distance = _blinkSpell.Distance;
+        if (Physics.Raycast(origin, direction, out RaycastHit hit, distance))
         {
-            if (_casterTransform.TryGetComponent(out NavMeshAgent agent))
+            if (hit.transform.TryGetComponent(out IDamagable damagable))
             {
-                agent.Warp(hit.position);
-                RenderEffect(0.5f);
+                var distanceFromDamagable = Vector3.Distance(origin, damagable.GetPosition());
+                float offset = 0f;
+                if (Math.Abs(distance - distanceFromDamagable) < 0.2f)
+                {
+                    offset = 0.2f;
+                }
+                RenderEffect();
+                _casterTransform.position = hit.point - _casterTransform.forward * offset;
+                Debug.Log("Blink");
+                return;
             }
         }
+        RenderEffect();
+        _casterTransform.position = hit.point - _casterTransform.forward;
+        Debug.Log("Blink");
     }
 
-    private void RenderEffect(float destroyAfter)
+    private void RenderEffect()
     {
         var effect = UnityEngine.Object.Instantiate(_blinkSpell.Effect, _casterTransform.position, Quaternion.identity);
-        UnityEngine.Object.Destroy(effect.gameObject, destroyAfter);
+        UnityEngine.Object.Destroy(effect.gameObject, 1f);
     }
 }

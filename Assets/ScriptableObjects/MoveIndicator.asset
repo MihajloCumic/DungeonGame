@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c257b42c9ac00eb1fa70b5c1c2e7bbab, type: 3}
   m_Name: MoveIndicator
   m_EditorClassIdentifier: 
-  moveIndicatorPrefab: {fileID: 0}
+  moveIndicatorPrefab: {fileID: 1478414421302057217, guid: 35eadfe70721a4c6fa60163d254b0cb0, type: 3}

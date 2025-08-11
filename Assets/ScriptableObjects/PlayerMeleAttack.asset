@@ -15,3 +15,4 @@ MonoBehaviour:
   _baseDamage: 15
   _cooldown: 0
   _maxDistance: 2
+  hitEffect: {fileID: 3891973445508218817, guid: e190bf97c041e58448af6b043116cba0, type: 3}

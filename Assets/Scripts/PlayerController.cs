@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
     public NavMeshAgent Agent => _agent;
     private AnimationManager _animationManager;
     public AnimationManager AnimationManager => _animationManager;
-
-
     private StateManager _stateManager;
+    private readonly CooldownEvent _cooldownEvent = new();
+    public CooldownEvent CooldownEvent => _cooldownEvent;
 
     void Awake()
     {
@@ -31,5 +31,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _stateManager.Update();
+    }
+
+    public void Subscribe(CooldownEvent.CooldownDelegate handler)
+    {
+        _cooldownEvent.CooldownHandler += handler;
     }
 }

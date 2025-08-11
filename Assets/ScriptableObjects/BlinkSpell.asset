@@ -15,6 +15,7 @@ MonoBehaviour:
   _baseDamage: 0
   _cooldown: 8
   _indicator: {fileID: 3744133877081091469, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
+  isBlocking: 0
   effect: {fileID: 797784518864179116, guid: a2a060732547fe64581bb0cb3c2bdf1d, type: 3}
   delay: 0.5
-  distance: 2
+  distance: 5

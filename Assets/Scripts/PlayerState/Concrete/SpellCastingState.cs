@@ -58,6 +58,7 @@ public class SpellCastingState : State
                 NonBlockingExecute(hit.point);
             }
             cooldowns[_spell] = Time.time;
+            stateManager.PlayerController.CooldownEvent.Trigger(_spell);
             stateManager.SwitchState(stateManager.IdleState);
             return;
         }

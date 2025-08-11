@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IceSpell
   m_EditorClassIdentifier: 
   _baseDamage: 5
-  _cooldown: 10
+  _cooldown: 9
   _indicator: {fileID: 7347081155134020126, guid: 76d38d6e8005c7999b315e163f362dee, type: 3}
   isBlocking: 0
   maxDistance: 50
