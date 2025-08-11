@@ -71,5 +71,10 @@ public class StateManager
             SwitchState(SpellCastingState.Create(this, wSpell));
             return;
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var eSpell = PlayerController.SpellSet.ThirdSpell;
+            SwitchState(SpellCastingState.Create(this, eSpell));
+        }
     }
 }

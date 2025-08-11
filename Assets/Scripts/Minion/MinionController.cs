@@ -21,6 +21,7 @@ public class MinionController : MonoBehaviour
         
     }
 
+
     public void SetPlayerAndState(IDamagable player)
     {
         Player = player;
@@ -30,7 +31,11 @@ public class MinionController : MonoBehaviour
             Player,
             _agent,
             _animationManager
-        );   
+        );
+    }
+    void Start()
+    {
+        _followAndAttackState.EnterState();
     }
 
     void Update()

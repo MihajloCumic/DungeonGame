@@ -32,6 +32,6 @@ public class IceSpell : Spell
             indicator.transform.localScale = new Vector3(diameter, diameter, scale.z);
             indicator.SetActive(true);
         }
-        indicator.transform.position = new Vector3(center.x, 0.2f, center.z);
+        indicator.transform.position = new Vector3(center.x, 0.1f, center.z);
     }
 }

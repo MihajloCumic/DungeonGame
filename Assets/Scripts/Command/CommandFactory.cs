@@ -23,10 +23,9 @@ public class CommandFactory
                 animationFunc,
                 mouseHitPosition
             ),
-            BurnAroundSpell burnSpell => new BurnAroundCommand(
+            BlinkSpell blinkSpell => new BlinkCommand(
                 casterTransform,
-                burnSpell,
-                animationFunc
+                blinkSpell
             ),
             _ => null
         };
@@ -45,6 +44,11 @@ public class CommandFactory
                 transform,
                 player,
                 explodeSpell,
+                animationFunc
+            ),
+            BurnAroundSpell burnSpell => new BurnAroundCommand(
+                transform,
+                burnSpell,
                 animationFunc
             ),
             _ => null

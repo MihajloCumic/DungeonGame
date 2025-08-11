@@ -21,22 +21,8 @@ public class BossController : MonoBehaviour, IDamagable
     void Start()
     {
         _animationManager.Idle();
-        Spell spell = spells[1];
-        ICommand spellCommand = CommandFactory.CreateCommand(
-            spell,
-            transform,
-            _animationManager.BossCast,
-            player
-        );
-        //Execute(spellCommand);
-        // StartCoroutine(BossLogic());
+        StartCoroutine(BossLogic());
 
-    }
-
-    private async void Execute(ICommand command)
-    {
-        await command.Execute();
-        _animationManager.Idle();
     }
 
     private IEnumerator InitialWait()
@@ -56,20 +42,18 @@ public class BossController : MonoBehaviour, IDamagable
 
             int listCnt = spells.Count;
             int spellNum = Random.Range(0, listCnt);
-            Spell spell = spells[0];
+            Spell spell = spells[spellNum];
             ICommand spellCommand = CommandFactory.CreateCommand(
                 spell,
                 transform,
                 _animationManager.BossCast,
-                Vector3.zero
+                player
             );
-            // Task task = spellCommand.Execute();
-            // while (!task.IsCompleted)
-            // {
-            //     yield return null;
-            // }
-            spellCommand.Execute();
-            
+            Task task = spellCommand.Execute();
+            while (!task.IsCompleted)
+            {
+                yield return null;
+            }
         }
     }
 

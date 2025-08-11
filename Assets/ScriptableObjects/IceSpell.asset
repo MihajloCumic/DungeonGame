@@ -15,10 +15,11 @@ MonoBehaviour:
   _baseDamage: 5
   _cooldown: 15
   _indicator: {fileID: 7347081155134020126, guid: 76d38d6e8005c7999b315e163f362dee, type: 3}
-  maxDistance: 7
-  numOfCycles: 2
+  isBlocking: 0
+  maxDistance: 50
+  numOfCycles: 5
   waitBetweenCycles: 1
   slowDownDuration: 1
-  spellRadius: 3
+  spellRadius: 5
   hitEffect: {fileID: 6523699520211762466, guid: 0edef91621bb6b34384ccc9dbb98729c, type: 3}
-  fallingEffect: {fileID: 8977316153704399556, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
+  fallingEffect: {fileID: 2100541099862133063, guid: 05ce920d629922a4eb4795ef7494ce5c, type: 3}

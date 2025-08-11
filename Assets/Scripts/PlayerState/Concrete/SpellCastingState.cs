@@ -32,7 +32,7 @@ public class SpellCastingState : State
         Object.Destroy(_indicator);
     }
 
-    public override async void UpdateState()
+    public override void UpdateState()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -41,16 +41,33 @@ public class SpellCastingState : State
                 stateManager.SwitchState(stateManager.IdleState);
                 return;
             }
-            stateManager.Lock();
 
-            var command = CreateCommand(hit.point);
-            await command.Execute();
+            if (_spell.IsBlocking)
+            {
+                BlockingExecute(hit.point);
+            }
+            else
+            {
+                NonBlockingExecute(hit.point);
+            }
 
-            stateManager.Unlock();
             stateManager.SwitchState(stateManager.IdleState);
             return;
         }
         DrawIndicator();
+    }
+
+    private void NonBlockingExecute(Vector3 point)
+    {
+        var command = CreateCommand(point);
+        command.Execute();
+    }
+    private async void BlockingExecute(Vector3 point)
+    {
+        stateManager.Lock();
+        var command = CreateCommand(point);
+        await command.Execute();
+        stateManager.Unlock();       
     }
     private ICommand CreateCommand(Vector3 mouseHitPosition)
     {
