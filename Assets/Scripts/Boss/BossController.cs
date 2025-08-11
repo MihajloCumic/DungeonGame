@@ -4,26 +4,53 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(AnimationManager))]
-public class BossController : MonoBehaviour, IDamagable
+public class BossController : MonoBehaviour
 {
     [SerializeField] private BossStats bossStats;
     [SerializeField] private List<Spell> spells;
     [SerializeField] private BaseDamagable player;
+    [SerializeField] private BossAttack bossAttack;
     private AnimationManager _animationManager;
-    private int _currHealth;
+    private float _lastAttackTime = -Mathf.Infinity;
+    private volatile bool _lock = false;
 
     void Awake()
     {
-        _currHealth = (int)bossStats.MaxHealth;
         _animationManager = GetComponent<AnimationManager>();
     }
 
     void Start()
     {
         _animationManager.Idle();
-        StartCoroutine(BossLogic());
+        // StartCoroutine(BossLogic());
 
     }
+
+    void Update()
+    {
+        Rotate();
+        if (IsPlayerInRange() && IsAttackCooldownUp() && !_lock)
+        {
+            var command = CommandFactory.CreateAttackCommand(
+                bossAttack,
+                transform,
+                _animationManager.BossAttack,
+                player
+            );
+            _lock = true;
+            ExecuteBlockingCommand(command);
+        }
+    }
+
+    private async void ExecuteBlockingCommand(ICommand command)
+    {
+        await command.Execute();
+        _lastAttackTime = Time.time;
+        _lock = false;
+        _animationManager.Idle();
+    }
+
+
 
     private IEnumerator InitialWait()
     {
@@ -33,12 +60,17 @@ public class BossController : MonoBehaviour, IDamagable
     private IEnumerator BossLogic()
     {
         yield return InitialWait();
-        while (!IsDead())
+        while (gameObject.activeInHierarchy)
         {
             float lower = bossStats.LowerAttackInterval;
             float upper = bossStats.UpperAttackInterval;
             float attackWait = Random.Range(lower, upper);
             yield return new WaitForSeconds(attackWait);
+
+            while (_lock)
+            {
+                yield return null;
+            }
 
             int listCnt = spells.Count;
             int spellNum = Random.Range(0, listCnt);
@@ -50,6 +82,7 @@ public class BossController : MonoBehaviour, IDamagable
                 player
             );
             Task task = spellCommand.Execute();
+            
             while (!task.IsCompleted)
             {
                 yield return null;
@@ -57,44 +90,22 @@ public class BossController : MonoBehaviour, IDamagable
         }
     }
 
-
-    public int GetCurrHealth()
+    private void Rotate()
     {
-        return _currHealth;
+        var direction = (player.transform.position - transform.position).normalized;
+        direction.y = 0.1f;
+        Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+        transform.rotation = rotation;
+    }
+    private bool IsPlayerInRange()
+    {
+        var distance = Vector3.Distance(transform.position, player.transform.position);
+        return distance <= bossAttack.MaxDistance;
     }
 
-    public uint GetMaxHealth()
+    private bool IsAttackCooldownUp()
     {
-        return bossStats.MaxHealth;
-    }
-
-    public Vector3 GetPosition()
-    {
-        return transform.position;
-    }
-
-    public bool IsDead()
-    {
-        return _currHealth <= 0 || !gameObject.activeInHierarchy;
-    }
-
-    public void SetVisualMarker()
-    {
-        return;
-    }
-
-    public void Subscribe(DamageEvent.DamageDelegate handler)
-    {
-        return;
-    }
-
-    public void TakeDamage(uint damage)
-    {
-        _currHealth -= (int)damage;
-        if (_currHealth <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        return Time.time - _lastAttackTime >= bossAttack.Cooldown;
     }
 
 }

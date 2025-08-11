@@ -38,6 +38,7 @@ public class AttackCommand : ICommand
             return;
         }
 
+        Debug.Log(_attack.BaseDamage);
         _target.TakeDamage(_attack.BaseDamage);
         SceneRules.Instance.CheckRules(_casterTransform.GetComponent<IDamagable>(), _target, null,_attack);
     }

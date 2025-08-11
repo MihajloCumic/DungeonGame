@@ -40,17 +40,13 @@ public class SceneRules : MonoBehaviour
     public void SecondRule(IDamagable caster, IDamagable target, Attack attack)
     {
         bool isPlayer = caster is DamagablePlayer;
-        Debug.Log("Is player:" + isPlayer);
-        if (isPlayer && target is DamagableMinion damagableMinion)
+        if (isPlayer && target is DamagableBoss boss)
         {
-            if (damagableMinion.TryGetComponent(out BossController bossController))
+            Debug.Log("It is a boss");
+            if (boss.IsDead() && attack == null)
             {
-                Debug.Log("It is a boss");
-                if (bossController.IsDead() && attack == null)
-                {
-                    Debug.Log("Did not kill boss with mele");
-                    Time.timeScale = 0f;
-                }
+                Debug.Log("Did not kill boss with mele");
+                Time.timeScale = 0f;
             }
         }
     }

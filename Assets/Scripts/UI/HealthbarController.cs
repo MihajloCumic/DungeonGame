@@ -4,18 +4,18 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class PlaterHealthbar : MonoBehaviour
 {
-    [SerializeField] private BaseDamagable player;
+    [SerializeField] private BaseDamagable damagable;
     private uint _currHealth;
     private Slider _slider;
 
     void Awake()
     {
-        _currHealth = player.GetMaxHealth();
+        _currHealth = damagable.GetMaxHealth();
         _slider = GetComponent<Slider>();
         _slider.minValue = 0;
         _slider.maxValue = _currHealth;
         _slider.value = _currHealth;
-        player.Subscribe(RegisterDamageTaken);
+        damagable.Subscribe(RegisterDamageTaken);
     }
 
     public void RegisterDamageTaken(IDamagable sender, DamageArgs damageArgs)
