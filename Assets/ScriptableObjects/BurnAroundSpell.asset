@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0322a53697e5e06ed8d2c7b636f764ab, type: 3}
   m_Name: BurnAroundSpell
   m_EditorClassIdentifier: 
-  _baseDamage: 20
+  _baseDamage: 40
   _cooldown: 0
   _indicator: {fileID: 6526302276393259002, guid: f9d9793366789ae48a7e1b0692763acc, type: 3}
+  isBlocking: 0
   indicatorEffect: {fileID: 6211125795773073634, guid: 12a56ee4630040c4eb17ae9707ed4cef, type: 3}
   hitEffect: {fileID: 4596544553357837919, guid: 8eb503696b886e04faff8fc0f480d473, type: 3}
   radius: 5

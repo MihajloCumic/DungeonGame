@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87bcb435e2e16ad38a07282b7770c28, type: 3}
   m_Name: PlayerMeleAttack
   m_EditorClassIdentifier: 
-  _baseDamage: 15
-  _cooldown: 0
+  _baseDamage: 20
+  _cooldown: 1
   _maxDistance: 2
   hitEffect: {fileID: 3891973445508218817, guid: e190bf97c041e58448af6b043116cba0, type: 3}

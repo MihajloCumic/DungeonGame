@@ -20,6 +20,7 @@ public class AttackState : State
 
         stateManager.Lock();
         await _command.Execute();
+        stateManager.MoveToAttackState._lastAttack = Time.time;
         stateManager.Unlock();
         stateManager.SwitchState(stateManager.IdleState);
     }

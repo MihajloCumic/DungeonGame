@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BossAttack
   m_EditorClassIdentifier: 
   _baseDamage: 35
-  _cooldown: 4
-  _maxDistance: 5
+  _cooldown: 3
+  _maxDistance: 7
   hitEffect: {fileID: 484368387861551534, guid: 9b21333b068a5084ba09535839bee3c8, type: 3}

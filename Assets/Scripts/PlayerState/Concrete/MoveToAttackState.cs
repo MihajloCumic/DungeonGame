@@ -4,6 +4,7 @@ public class MoveToAttackState : State
 {
     private IDamagable _target;
     private readonly Attack _attack;
+    public float _lastAttack = -Mathf.Infinity;
     public MoveToAttackState(StateManager stateManager, Attack attack) : base(stateManager)
     {
         _attack = attack;
@@ -18,6 +19,11 @@ public class MoveToAttackState : State
         }
         if (IsInRange())
         {
+            if (Time.time - _lastAttack < _attack.Cooldown)
+            {
+                stateManager.SwitchState(stateManager.IdleState);
+                return;
+            }
             stateManager.SwitchState(CreateAttackState());
         }
     }

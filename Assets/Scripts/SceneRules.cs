@@ -5,6 +5,8 @@ public class SceneRules : MonoBehaviour
 {
     public static SceneRules Instance { get; private set; }
 
+    [SerializeField] private GameObject RuleMenu;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -13,6 +15,21 @@ public class SceneRules : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    void Start()
+    {
+        RuleMenu.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            RuleMenu.SetActive(false);
+            Time.timeScale = 1f;
+        }
     }
 
     public void CheckRules(IDamagable caster, IDamagable target, Spell spell, Attack attack)

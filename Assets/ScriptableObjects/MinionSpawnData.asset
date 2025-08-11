@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MinionSpawnData
   m_EditorClassIdentifier: 
   initialWait: 3
-  poolCapacity: 20
-  maxConcurrent: 1
-  rate: 4
-  spawnCycleIntervalLower: 100
-  spawnCycleIntervalUpper: 100
+  poolCapacity: 30
+  maxConcurrent: 5
+  rate: 3
+  spawnCycleIntervalLower: 15
+  spawnCycleIntervalUpper: 20
