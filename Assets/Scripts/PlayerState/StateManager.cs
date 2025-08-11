@@ -21,7 +21,7 @@ public class StateManager
         currState = _idleState;
         var attack = playerController.PlayerStats.MeleAttack;
         _moveToAttackState = new MoveToAttackState(this, attack);
-        _moveState = new MoveState(this);
+        _moveState = new MoveState(this, playerController.MoveIndicator.MoveIndicatorPrefab);
         SetUpCooldowns(playerController.SpellSet);
     }
 

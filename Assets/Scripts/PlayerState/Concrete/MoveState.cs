@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class MoveState : State
 {
-    public MoveState(StateManager stateManager) : base(stateManager)
+    private readonly GameObject _indicator;
+    public MoveState(StateManager stateManager, GameObject moveIndicatorPrefab) : base(stateManager)
     {
+        _indicator = Object.Instantiate(moveIndicatorPrefab);
+        _indicator.SetActive(false);
     }
 
     public override void ExitState()
     {
-        return;
+        _indicator.SetActive(false);
     }
 
     public override void CheckForChange()
@@ -58,6 +61,8 @@ public class MoveState : State
         }
 
         playerController.Agent.SetDestination(hit.point);
+        _indicator.SetActive(true);
+        _indicator.transform.position = new Vector3(hit.point.x, 0.1f, hit.point.z);
     }
 
     private bool SwitchToMoveToAttackState(RaycastHit hit)

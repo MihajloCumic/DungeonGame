@@ -7,7 +7,7 @@ public class DamagableBoss : BaseDamagable
     private BossController _minionController;
 
     private Renderer[] _renderers;
-    private readonly Color _originalColor = Color.darkRed;
+    private readonly Color _originalColor = Color.black;
 
     protected override void SubclassAwake()
     {

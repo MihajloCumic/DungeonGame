@@ -7,13 +7,12 @@ public class DamagableMinion : BaseDamagable
     private MinionController _minionController;
 
     private Renderer[] _renderers;
-    private Color _originalColor;
+    private Color _originalColor = Color.black;
 
     protected override void SubclassAwake()
     {
         _minionController = GetComponent<MinionController>();
         _renderers= GetComponentsInChildren<Renderer>(true);
-        _originalColor = _renderers[0].material.color;
     }
 
     public override void TakeDamage(uint damage)

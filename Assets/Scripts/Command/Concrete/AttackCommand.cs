@@ -38,8 +38,14 @@ public class AttackCommand : ICommand
             return;
         }
 
-        Debug.Log(_attack.BaseDamage);
+        HitEffect(_target);
         _target.TakeDamage(_attack.BaseDamage);
-        SceneRules.Instance.CheckRules(_casterTransform.GetComponent<IDamagable>(), _target, null,_attack);
+        SceneRules.Instance.CheckRules(_casterTransform.GetComponent<IDamagable>(), _target, null, _attack);
+    }
+
+    private void HitEffect(IDamagable damagable)
+    {
+        var effect = UnityEngine.Object.Instantiate(_attack.HitEffect, damagable.GetPosition(), Quaternion.identity);
+        UnityEngine.Object.Destroy(effect.gameObject, 1f);
     }
 }
