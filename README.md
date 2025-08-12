@@ -12,3 +12,4 @@ There are three rules you must follow to truly win:
 - Q + left mouse click - Ranged fire spell
 - W + left mouse click - AoE ice spell
 - E - Heal spell
+<img width="698" height="798" alt="wizards-trials-photo" src="https://github.com/user-attachments/assets/8c936260-ff03-46b7-b6bb-d7be3e3ceef2" />
